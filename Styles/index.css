@@ -4,6 +4,22 @@ Contact: vera@groundedwren.com
 File Description: Index.html styles
 */
 
+:root {
+	--cell-size: 80px;
+}
+
+@media (width <= 942px) or (height <= 810px) {
+	:root {
+		--cell-size: 60px;
+	}
+}
+
+@media (width <= 782px) or (height <= 650px) {
+	:root {
+		--cell-size: 44px;
+	}
+}
+
 html {
 	height: 100vh;
 }
@@ -55,21 +71,62 @@ header {
 }
 
 body {
-	min-height: 100vh;
-	height: 100%;
+	height: 100vh;
+	max-height: 100vh;
 	width: 100%;
 	max-width: 1920px;
-	max-height: 1000px;
 
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template-rows: auto 1fr auto;
 }
 
 main {
-	margin: 5px;
-	max-width: 1100px;
+	max-height: 1000px;
+	max-width: 1600px;
+	height: 100%;
+	padding-block: 5px;
+	margin-block: auto;
 	margin-inline: auto;
-	flex-grow: 1;
+
+	display: grid;
+	grid-template-areas: 
+		"x g i";
+	grid-template-columns: minmax(0, 300px) auto minmax(300px, auto);
+}
+
+#shortsGame {
+	grid-area: g;
+	display: grid;
+	grid-template-rows: 0fr auto;
+	justify-items: center;
+}
+
+#tblBoard {
+	display: grid;
+	grid-template-columns: repeat(8, 1fr);
+	grid-template-rows: repeat(8, auto);
+
+	max-height: 1000px;
+
+	tbody, tr {
+		display: contents;
+	}
+
+	td {
+		aspect-ratio: 1 / 1;
+		width: var(--cell-size);
+	}
+}
+
+div:has(> #artInfo) {
+	grid-area: i;
+	display: flex;
+	align-items: flex-start;
+}
+#artInfo {
+	min-width: 200px;
+	min-height: 200px;
+	margin-inline: 5px;
 }
 
 footer {
@@ -214,4 +271,30 @@ button {
 
 gw-switch {
 	min-width: 20px;
+}
+
+@media (width <= 654px) {
+	:root {
+		--cell-size: 100%;
+	}
+	header {
+		display: flex;
+		flex-direction: column;
+	}
+
+	main {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: min(100%, 575px);
+		padding-inline: 10px;
+	}
+
+	#shortsGame {
+		width: 100%;
+	}
+
+	#divBoardContainer {
+		display: contents;
+	}
 }

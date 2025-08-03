@@ -50,8 +50,26 @@
 		</div>
 	</header>
 	<main id="main">
-		<section id="secGame"></section>
-		<button id="btnUndo">Undo</button>
+		<gw-shortcuts id="shortsGame"
+			role="application"
+			aria-labelledby="spnGameLbl"
+			aria-describedby="asiGame"
+		>
+			<div id="divBoardContainer">
+				<table id="tblBoard" role="grid" aria-labelledby="spnGameBoradLbl"></table>
+			</div>
+			<aside id="asiGame" style="visibility: hidden;">
+				<gw-icon iconKey="keyboard" name="Keyboard navigation available"></gw-icon>
+				<span class="sr-only">in focus mode</span>
+				<span>(<kbd>Alt</kbd>+<kbd>S</kbd>)</span>
+			</aside>
+		</gw-shortcuts>
+		<div>
+			<article id="artInfo" aria-labelledby="hInfo">
+				<h2 id="hInfo">Info</h2>
+				<button id="btnUndo">Undo</button>
+			</article>
+		</div>
 	</main>
 	<footer>
 		<figure>
@@ -85,5 +103,9 @@
 			</footer>
 		</form>
 	</dialog>
+	<div class="hidden">
+		<span id="spnGameLbl">Reversi</span>
+		<span id="spnGameBoardLbl">Board</span>
+	</div>
 </body>
 </html>

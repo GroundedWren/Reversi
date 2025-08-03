@@ -38,8 +38,17 @@ window.GW = window.GW || {};
 	ns.renderGame = function renderGame() {
 		ns.CellEl.ActionBatcher.addListener("onRender", onRender);
 
-		const secGame = document.getElementById("secGame");
-		secGame.innerHTML = ``;
+		const tblBoard = document.getElementById("tblBoard");
+		tblBoard.innerHTML = `
+		<tbody>${[1, 2, 3, 4, 5, 6, 7, 8].reduce((bodyAccu, rowIdx) => {
+			return bodyAccu += 
+			`<tr>${[1, 2, 3, 4, 5, 6, 7, 8].reduce((rowAccu, colIdx) => {
+				return rowAccu += 
+				`<td></td>`;
+			}, "")}
+			</tr>`;
+		}, "")}
+		</tbody>`;
 	}
 
 	const onRender = () => {
