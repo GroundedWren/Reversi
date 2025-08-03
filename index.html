@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Reversi player">
+	<title>Reversi</title>
+
+	<link href="./Styles/variables.css" rel="stylesheet" type="text/css">
+	<link href="./Styles/main.css" rel="stylesheet" type="text/css">
+
+	<script src="./Scripts/ActionBatcherGizmo.js"></script>
+	<script src="./Scripts/SVGIconControl.js"></script>
+	<script src="./Scripts/SwitchControl.js"></script>
+	
+	<script src="./Scripts/Display.js"></script>
+	<script src="./Scripts/Reversi.js"></script>
+	<script src="./Scripts/CellControl.js"></script>
+
+	<link href="./Styles/index.css" rel="stylesheet" type="text/css">
+	<script src="./Scripts/index.js"></script>
+</head>
+<body>
+	<header>
+		<div>
+			<a class="hide-until-focus full" href="#main">Skip to content</a>
+			<noscript><strong>This site may not function properly without JavaScript enabled.</strong></noscript>
+			<a class="full" href="https://groundedwren.com/Pages/Games.html">Grounded Wren Games</a>
+		</div>
+		<div><h1>Reversi</h1></div>
+		<div class="bubble-container">
+			<button onclick="document.getElementById('diaInfo').showModal()">
+				<gw-icon iconKey="circle-info" name="Instructions"></gw-icon>
+			</button>
+			<details class="bubbler">
+				<summary>
+					<gw-icon iconKey="gear" name="Settings"></gw-icon>
+				</summary>
+				<div class="bubble">
+					<label>
+						<gw-switch><input id="cbxDarkMode"
+							type="checkbox"
+							oninput="localStorage.setItem('theme', event.target.checked ? 'dark' : 'light');GW.Reversi.Display.updatePrefs();"
+						></gw-switch>
+						Dark mode
+					</label>
+				</div>
+			</details>
+			<button onclick="document.getElementById('diaNew').showModal()">New Game</button>
+		</div>
+	</header>
+	<main id="main">
+		<section id="secGame"></section>
+		<button id="btnUndo">Undo</button>
+	</main>
+	<footer>
+		<figure>
+			<a href="https://www.groundedwren.com/" target="_blank">
+				<img src="./Img/gw-button.png" alt="Grounded Wren 88x31 Button; white text on a swirling purple, red, and black background">
+			</a>
+			<figcaption>Created by Vera in 2025</figcaption>
+		</figure>
+	</footer>
+	<dialog id="diaInfo">
+		<article>
+			<gw-icon iconKey="circle-info" name="info" tabindex="-1" role="heading" aria-level="1" autofocus></gw-icon>
+			<article>
+				<h2>Intro</h2>
+				<p>
+					Welcome to the Grounded Wren Reversi player!
+				</p>
+			</article>
+			<footer>
+				<a class="full" href="mailto:vera@groundedwren.com?subject=Reversi">Give feedback</a>
+				<button onclick="document.getElementById('diaInfo').close();">Close</button>
+			</footer>
+		</article>
+	</dialog>
+	<dialog id="diaNew">
+		<form aria-labelledby="hNew" onsubmit="GW.Reversi.onNewGame(event);document.getElementById('diaNew').close();">
+			<h2 id="hNew">New Game</h2>
+			<footer>
+				<button type="submit">Begin</button>
+				<button type="button" onclick="document.getElementById('diaNew').close()">Cancel</button>
+			</footer>
+		</form>
+	</dialog>
+</body>
+</html>

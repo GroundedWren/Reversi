@@ -1,0 +1,119 @@
+:root, .theme-light {
+	--background-color: #FFFFFF;
+	--background-color-2: #E3E3E3;
+	--text-color: #000000;
+	--border-color: #000000;
+	--selected-color: #90CBDB;
+	--button-face-color: #C8C8C8;
+	--button-text-color: #000000;
+	--input-text-color: #000000;
+	--input-background-color: #FFFFFF;
+	--link-color: #0000EE;
+	--link-background-color: #BDE0F2;
+	--focus-color: #FF0701;
+	--icon-color: #000000;
+	--banner-color: #B3B3B3;
+	--mark-color: #D2FCC5;
+	--accent-color: #D5B3D9;
+	--invalid-color: #5C01D8;
+	--invalid-text-background-color: #ff80c0;
+
+	--square-1-color: #d2f7f5;
+	--square-2-color: #c6acd2;
+	--square-3-color: #fff5d3;
+	--square-4-color: #f3bfd4;
+	--square-5-color: #e1f1bd;
+	--square-6-color: #ffcece;
+	--square-7-color: #b0d8ca;
+	--square-8-color: #f4c2f0;
+	--square-9-color: #f7c084;
+
+	--border-color-2: #0000cc;
+	--border-color-3: #af0344;
+	--border-color-4: #42a003;
+	--border-color-5: #760caf;
+
+	--cell-1-bkg-color: #FFFFFF;
+	--cell-1-color: #000000;
+	--cell-2-bkg-color: #dfdfff;
+	--cell-2-color: #0000ff;
+	--cell-3-bkg-color: #ddffdd;
+	--cell-3-color: #008000;
+	--cell-4-bkg-color: #eeddff;
+	--cell-4-color: #400080;
+	--cell-5-bkg-color: #80ffff;
+	--cell-5-color: #000080;
+	--cell-6-bkg-color: #80ff80;
+	--cell-6-color: #004000;
+	--cell-7-bkg-color: #ff80c0;
+	--cell-7-color: #400040;
+	--cell-8-bkg-color: #660000;
+	--cell-8-color: #ff9494;
+	--cell-9-bkg-color: #000000;
+	--cell-9-color: #ffffff;
+	
+	input {
+		color-scheme: light;
+	}
+}
+
+@media not print {
+	.theme-dark {
+		--background-color: #000000;
+		--background-color-2: #242424;
+		--text-color: #FFFFFF;
+		--border-color: #FFFFFF;
+		--selected-color: #223891;
+		--button-face-color: #474747;
+		--button-text-color: #FFFFFF;
+		--input-text-color: #FFFFFF;
+		--input-background-color: #000000;
+		--link-color: #74D7EE;
+		--link-background-color: #3C5054;
+		--focus-color: #FF0701;
+		--icon-color: #FFFFFF;
+		--banner-color: #404040;
+		--mark-color: #005C08;
+		--accent-color: #8D4A95;
+		--invalid-color: #A35FFE;
+		--invalid-text-background-color: #660000;
+
+		--square-1-color: #136260;
+		--square-2-color: #432b4f;
+		--square-3-color: #6a5300;
+		--square-4-color: #73153a;
+		--square-5-color: #475c14;
+		--square-6-color: #6a0000;
+		--square-7-color: #204236;
+		--square-8-color: #3f0c3a;
+		--square-9-color: #4b2b05;
+
+		--border-color-2: #0000ee;
+		--border-color-3: #d90452;
+		--border-color-4: #55ce04;
+		--border-color-5: #a418ef;
+
+		--cell-1-bkg-color: #000000;
+		--cell-1-color: #ffffff;
+		--cell-2-bkg-color: #0000cc;
+		--cell-2-color: #dfdfff;
+		--cell-3-bkg-color: #008000;
+		--cell-3-color: #ddffdd;
+		--cell-4-bkg-color: #400080;
+		--cell-4-color: #eeddff;
+		--cell-5-bkg-color: #000080;
+		--cell-5-color: #80ffff;
+		--cell-6-bkg-color: #004000;
+		--cell-6-color: #80ff80;
+		--cell-7-bkg-color: #400040;
+		--cell-7-color: #ff80c0;
+		--cell-8-bkg-color: #ff9494;
+		--cell-8-color: #660000;
+		--cell-9-bkg-color: #ffffff;
+		--cell-9-color: #000000;
+		
+		input {
+			color-scheme: dark;
+		}
+	}
+}

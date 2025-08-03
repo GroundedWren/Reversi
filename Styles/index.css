@@ -1,0 +1,217 @@
+/*
+Author: Vera Konigin
+Contact: vera@groundedwren.com
+File Description: Index.html styles
+*/
+
+html {
+	height: 100vh;
+}
+
+header {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	align-items: center;
+	text-align: center;
+	gap: 10px;
+	padding-block-end: 10px;
+	border-block-end: 1px solid var(--border-color);
+	padding: 5px;
+
+	> *:first-child {
+		width: fit-content;
+		justify-self: flex-start;
+	}
+
+	> *:nth-child(2) {
+		display: flex;
+		justify-content: center;
+		h1 {
+			width: fit-content;
+			background-color: var(--accent-color);
+			border-radius: 20px;
+			padding: 4px;
+		}
+	}
+
+	> *:last-child {
+		width: fit-content;
+		justify-self: flex-end;
+
+		display: grid;
+		grid-template-columns: auto auto auto;
+		gap: 4px;
+
+		.bubble {
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+
+			> label {
+				min-height: 30px;
+			}
+		}
+	}
+}
+
+body {
+	min-height: 100vh;
+	height: 100%;
+	width: 100%;
+	max-width: 1920px;
+	max-height: 1000px;
+
+	display: flex;
+	flex-direction: column;
+}
+
+main {
+	margin: 5px;
+	max-width: 1100px;
+	margin-inline: auto;
+	flex-grow: 1;
+}
+
+footer {
+	figure {
+		text-align: center;
+		margin: 5px;
+	}
+	img {
+		display: inline;
+	}
+}
+
+form, article {
+	padding: 4px;
+	background-color: var(--background-color-2);
+
+	h1, h2, h3, h4, h5, h6 {
+		margin-block: 0;
+		margin-block-start: -4px;
+		margin-inline: -4px;
+		padding-inline: 5px;
+		background-color: var(--accent-color);
+		word-break: keep-all;
+		text-align: start;
+	}
+
+	.input-grid {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		row-gap: 5px;
+		user-select: none;
+
+		> label {
+			text-align: end;
+			display: contents;
+
+			&:has(input[type="checkbox"]) {
+				&:has(:focus) {
+					&::before {
+						background-color: var(--mark-color);
+					}
+				}
+				&::before {
+					content: "";
+
+				}
+				> span {
+					&:has(input:checked) {
+						background-color: var(--selected-color);
+					}
+				}
+			}
+
+			&:has(:focus-within) {
+				> span {
+					background-color: var(--mark-color);
+				}
+				input {
+					outline-width: 2px !important;
+					outline-color: var(--focus-color) !important;
+					outline-style: solid !important;
+					outline-offset: 1px !important;
+					position: relative !important;
+					z-index: 100 !important;
+				}
+			}
+		}
+	}
+
+	footer {
+		border-block-start: none;
+		width: 100%;
+		margin-top: 4px;
+
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		gap: 5px;
+	}
+}
+
+dialog {
+	border: 1px solid var(--border-color);
+	padding: 0;
+
+	&::backdrop {
+		background-color: var(--background-color-2);
+		opacity: 0.75;
+	}
+}
+
+#diaInfo > article {
+	max-width: 900px;
+	padding-block-end: 0px;
+
+	display: grid;
+	grid-template-columns: 30px 1fr;
+	grid-template-rows: 1fr auto;
+	column-gap: 5px;
+
+	gw-icon {
+		grid-column: 1;
+		grid-row: 1 / span 2;
+
+		&:focus {
+			outline: none !important;
+			background-color: var(--selected-color);
+		}
+
+		.gw-icon {
+			width: initial;
+			height: initial;
+		}
+	}
+	article {
+		grid-column: 2;
+		grid-row: 1;
+
+		:is(h1, h2, h3, h4, h5, h6) + p {
+			margin-block-start: 0;
+		}
+	}
+	footer {
+		grid-row: 2;
+		grid-column: 2;
+
+		border: none;
+		position: sticky;
+		bottom: 0;
+
+		display: flex;
+		justify-content: flex-end;
+		gap: 10px;
+	}
+}
+
+button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+gw-switch {
+	min-width: 20px;
+}
