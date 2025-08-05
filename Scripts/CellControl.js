@@ -290,6 +290,8 @@ window.GW = window.GW || {};
 		#doRender = () => {
 			const hadFocus = this.matches(`:focus-within`);
 
+			this.setAttribute("tabindex", "-1");
+
 			const data = this.getData();
 			if(data.Color) {
 				this.setAttribute("data-color", data.Color);

@@ -152,6 +152,8 @@ main {
 	grid-template-columns: repeat(8, 1fr);
 	grid-template-rows: repeat(8, auto);
 
+	--link-color: var(--border-color);
+
 	max-height: 1000px;
 
 	background: var(--board-bkg-gradient);
@@ -168,7 +170,7 @@ main {
 		grid-template-rows: 1fr;
 		padding: 0;
 		border: 0;
-		box-shadow: 0px 0px 0px 0.9px var(--border-color);
+		box-shadow: 0px 0px 0px 1px var(--border-color);
 
 		position: relative;
 
@@ -185,6 +187,12 @@ main {
 			outline-width: 0 !important;
 		}
 	}
+}
+
+#asiGame {
+	display: flex;
+	align-items: flex-end;
+	height: min-content;
 }
 
 div:has(> #artInfo) {
@@ -218,6 +226,10 @@ div:has(> #artInfo) {
 	table {
 		border: none;
 
+		th, td {
+			border: none;
+		}
+
 		th {
 			width: 0;
 			word-break: keep-all;
@@ -225,8 +237,8 @@ div:has(> #artInfo) {
 			text-align: end;
 		}
 
-		th, td {
-			border: none;
+		td {
+			width: 100%;
 		}
 	}
 
@@ -439,6 +451,7 @@ gw-switch {
 
 	#shortsGame {
 		width: 100%;
+		display: block;
 	}
 
 	#divBoardContainer {

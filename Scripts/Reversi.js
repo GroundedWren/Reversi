@@ -111,6 +111,7 @@ window.GW = window.GW || {};
 		ns.CellEl.RenderBatcher.addListener("onRender", onRender);
 
 		const tblBoard = document.getElementById("tblBoard");
+		tblBoard.setAttribute("tabindex", "0");
 		tblBoard.innerHTML = `
 		<tbody>${[1, 2, 3, 4, 5, 6, 7, 8].reduce((bodyAccu, rowIdx) => {
 			return bodyAccu += 
@@ -137,6 +138,7 @@ window.GW = window.GW || {};
 		setTimeout(() => GW.Controls.Toaster.showToast("Action undone", {invisible: true}), 0);
 
 		await ns.CellEl.RenderBatcher.BatchPromise;
+		document.getElementById("tblBoard").removeAttribute("tabindex");
 		if(targetCell) {
 			document.querySelector(
 				`gw-cell[data-row="${targetCell.RowIdx}"][data-col="${targetCell.ColIdx}"]`
