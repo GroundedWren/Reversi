@@ -78,9 +78,11 @@ window.GW = window.GW || {};
 		const mainEl = document.getElementById("main");
 		if(ns.Data.ToMove) {
 			mainEl.setAttribute("data-ToMove", ns.Data.ToMove);
+			document.getElementById("btnGrd").removeAttribute("disabled");
 		}
 		else {
 			mainEl.removeAttribute("data-ToMove");
+			document.getElementById("btnGrd").setAttribute("disabled", "true");
 		}
 		if(!document.getElementById("olbPpc").hasAttribute("disabled")) {
 			if(ns.Data.ToMove === ns.Colors.White) {
@@ -245,5 +247,14 @@ window.GW = window.GW || {};
 
 	ns.onPpcChange = () => {
 		document.querySelectorAll(`gw-cell[data-clickable]`).forEach(cellEl => cellEl.updateTabindex());
+	};
+
+	ns.moveGreedily = () => {
+		const targetCell = [...document.querySelectorAll(`gw-cell[data-clickable]`)].sort(
+			(a, b) => b.Value - a.Value
+		)[0];
+
+		targetCell.querySelector(`button`)?.click();
+
 	};
 }) (window.GW.Reversi = window.GW.Reversi || {});

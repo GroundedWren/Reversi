@@ -137,6 +137,7 @@ window.GW = window.GW || {};
 		IsInitialized; // Whether the element has rendered its content
 		RowIdx;
 		ColIdx;
+		Value;
 
 		/** Creates an instance */
 		constructor() {
@@ -148,6 +149,7 @@ window.GW = window.GW || {};
 			this.InstanceId = CellEl.InstanceCount++;
 			this.RowIdx = parseInt(this.getAttribute("data-row"));
 			this.ColIdx = parseInt(this.getAttribute("data-col"));
+			this.Value = 0;
 		}
 
 		/** Shortcut for the root node of the element */
@@ -349,6 +351,7 @@ window.GW = window.GW || {};
 			const data = this.getData();
 			if(data.Color) {
 				this.removeAttribute("data-clickable");
+				this.Value = 0;
 				return;
 			}
 
@@ -356,9 +359,10 @@ window.GW = window.GW || {};
 				RowIdx: this.RowIdx, 
 				ColIdx: this.ColIdx,
 				Delta: delta,
-				SawOtherColor: false,
+				OtherColorCount: 0,
 			};});
 
+			let value = 0;
 			while(branches.length) {
 				const branch = branches.pop();
 				branch.RowIdx = branch.RowIdx + branch.Delta[0];
@@ -367,18 +371,24 @@ window.GW = window.GW || {};
 				const adjCell = (ns.Data[branch.RowIdx] || {})[branch.ColIdx];
 				if(adjCell && adjCell.Color) {
 					if(adjCell.Color === ns.Data.ToMove) {
-						if(branch.SawOtherColor) {
-							this.setAttribute("data-clickable", "true");
-							return;
+						if(branch.OtherColorCount > 0) {
+							value += branch.OtherColorCount;
 						}
 					}
 					else{
-						branch.SawOtherColor = true;
+						branch.OtherColorCount++;
 						branches.push(branch);
 					}
 				}
 			}
-			this.removeAttribute("data-clickable");
+			if(value > 0) {
+				this.setAttribute("data-clickable", "true");
+				this.Value = value;
+			}
+			else {
+				this.removeAttribute("data-clickable");
+				this.Value = 0;
+			}
 		}
 	}
 	if(!customElements.get(ns.CellEl.Name)) {
