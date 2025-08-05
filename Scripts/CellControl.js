@@ -291,6 +291,13 @@ window.GW = window.GW || {};
 			const hadFocus = this.matches(`:focus-within`);
 
 			const data = this.getData();
+			if(data.Color) {
+				this.setAttribute("data-color", data.Color);
+			}
+			else {
+				this.removeAttribute("data-color");
+			}
+
 			this.innerHTML = `${data.Color
 				? `
 					<div tabindex="-1" role="figure" class="piece" aria-labelledby="${CellEl.getPieceLabel(data.Color)}">

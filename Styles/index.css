@@ -193,6 +193,21 @@ div:has(> #artInfo) {
 		color: white;
 	}
 
+	table {
+		border: none;
+		
+		th {
+			width: 0;
+			word-break: keep-all;
+			padding-inline: 2px;
+			text-align: end;
+		}
+
+		th, td {
+			border: none;
+		}
+	}
+
 	gw-option-listbox {
 		fieldset {
 			display: grid;

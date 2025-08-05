@@ -151,6 +151,16 @@ window.GW = window.GW || {};
 			}
 		}
 
+		document.getElementById("tdBlackCount").innerText = document.querySelectorAll(
+			`gw-cell[data-color="${ns.Colors.Black}"]`
+		).length;
+		document.getElementById("tdWhiteCount").innerText = document.querySelectorAll(
+			`gw-cell[data-color="${ns.Colors.White}"]`
+		).length;
+		document.getElementById("tdBlankCount").innerText = document.querySelectorAll(
+			`gw-cell:not([data-color])`
+		).length;
+
 		Last.Data = JSON.parse(localStorage.getItem("data"));
 		localStorage.setItem("data", JSON.stringify(ns.Data));
 	};
