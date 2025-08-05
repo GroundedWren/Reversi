@@ -192,6 +192,51 @@ div:has(> #artInfo) {
 		background-color: black;
 		color: white;
 	}
+
+	gw-option-listbox {
+		fieldset {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+
+			padding: 0;
+			border: none;
+
+			[role="option"] {
+				min-height: 44px;
+				min-width: 44px;
+
+				display: flex;
+				justify-content: center;
+
+				--full-border: 2px solid var(--link-color);
+				--partial-border: 0.5px solid var(--link-color);
+				--radius: 20px;
+
+				border-block: var(--full-border);
+
+				&:has(+ [role="option"]) {
+					border-start-start-radius: var(--radius);
+					border-end-start-radius: var(--radius);
+					border-inline-start: var(--full-border);
+					border-inline-end: var(--partial-border);
+				}
+				+ [role="option"] {
+					border-start-end-radius: var(--radius);
+					border-end-end-radius: var(--radius);
+					border-inline-start: var(--partial-border);
+					border-inline-end: var(--full-border);
+				}
+
+				&[tabindex="-1"] {
+					outline: none !important;
+				}
+			}
+		}
+
+		svg {
+			display: none;
+		}
+	}
 }
 
 footer {
