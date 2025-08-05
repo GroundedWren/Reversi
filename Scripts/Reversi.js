@@ -75,7 +75,13 @@ window.GW = window.GW || {};
 	}
 
 	ns.onToggleToMove = () => {
-		document.getElementById("main").setAttribute("data-ToMove", ns.Data.ToMove);
+		const mainEl = document.getElementById("main");
+		if(ns.Data.ToMove) {
+			mainEl.setAttribute("data-ToMove", ns.Data.ToMove);
+		}
+		else {
+			mainEl.removeAttribute("data-ToMove");
+		}
 		if(!document.getElementById("olbPpc").hasAttribute("disabled")) {
 			if(ns.Data.ToMove === ns.Colors.White) {
 				document.getElementById("radPpcW").click();
@@ -151,15 +157,20 @@ window.GW = window.GW || {};
 			}
 		}
 
-		document.getElementById("tdBlackCount").innerText = document.querySelectorAll(
-			`gw-cell[data-color="${ns.Colors.Black}"]`
-		).length;
-		document.getElementById("tdWhiteCount").innerText = document.querySelectorAll(
-			`gw-cell[data-color="${ns.Colors.White}"]`
-		).length;
+		const cntBlack = document.querySelectorAll(`gw-cell[data-color="${ns.Colors.Black}"]`).length;
+		document.getElementById("tdBlackCount").innerText = cntBlack;
+
+		const cntWhite = document.querySelectorAll(`gw-cell[data-color="${ns.Colors.White}"]`).length;
+		document.getElementById("tdWhiteCount").innerText = cntWhite;
+
 		document.getElementById("tdBlankCount").innerText = document.querySelectorAll(
 			`gw-cell:not([data-color])`
 		).length;
+
+		document.getElementById("main").setAttribute("data-winning", (cntBlack > cntWhite)
+			? ns.Colors.Black
+			: ns.Colors.White
+		);
 
 		Last.Data = JSON.parse(localStorage.getItem("data"));
 		localStorage.setItem("data", JSON.stringify(ns.Data));

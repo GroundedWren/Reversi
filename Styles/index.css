@@ -93,6 +93,28 @@ main {
 		"x g i";
 	grid-template-columns: minmax(0, 300px) auto minmax(300px, auto);
 
+	&:not([data-ToMove]) {
+		&[data-winning="w"] {
+			#strBtm {
+				display: none;
+			}
+		}
+		&[data-winning="b"] {
+			#strWtm {
+				display: none;
+			}
+		}
+
+		#spnToMove {
+			display: none;
+		}
+	}
+	&[data-toMove] {
+		#spnWins {
+			display: none;
+		}
+	}
+
 	&[data-ToMove="w"] {
 		#strBtm {
 			display: none;
@@ -195,7 +217,7 @@ div:has(> #artInfo) {
 
 	table {
 		border: none;
-		
+
 		th {
 			width: 0;
 			word-break: keep-all;
