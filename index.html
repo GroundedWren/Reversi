@@ -12,6 +12,9 @@
 	<script src="./Scripts/ActionBatcherGizmo.js"></script>
 	<script src="./Scripts/SVGIconControl.js"></script>
 	<script src="./Scripts/SwitchControl.js"></script>
+	<script src="./Scripts/ToasterControl.js"></script>
+	<script src="./Scripts/ShortcutsControl.js"></script>
+	<script src="./Scripts/OptionListboxControl.js"></script>
 	
 	<script src="./Scripts/Display.js"></script>
 	<script src="./Scripts/Reversi.js"></script>
@@ -54,9 +57,41 @@
 			role="application"
 			aria-labelledby="spnGameLbl"
 			aria-describedby="asiGame"
+
+			code_0="ArrowRight"
+			handler_0="GW.Reversi.gameKbdNav(event)"
+			info_0="Move right a column"
+
+			code_1="ArrowLeft"
+			handler_1="GW.Reversi.gameKbdNav(event)"
+			info_1="Move left a column"
+
+			code_2="ArrowUp"
+			handler_2="GW.Reversi.gameKbdNav(event)"
+			info_2="Move up a row"
+
+			code_3="ArrowDown"
+			handler_3="GW.Reversi.gameKbdNav(event)"
+			info_3="Move down a column"
+
+			code_4="PageUp"
+			handler_4="GW.Reversi.gameBtnJump(event)"
+			info_4="Jump to the previous button"
+
+			code_5="PageDown"
+			handler_5="GW.Reversi.gameBtnJump(event)"
+			info_5="Jump to the next button"
+
+			code_6="Control+Z"
+			handler_6="GW.Reversi.undo(event)"
+			info_6="Undo the last action"
 		>
 			<div id="divBoardContainer">
-				<table id="tblBoard" role="grid" aria-labelledby="spnGameBoradLbl"></table>
+				<table id="tblBoard" 
+					role="grid" 
+					aria-labelledby="spnGameBoardLbl" 
+					tabindex="0"
+				></table>
 			</div>
 			<aside id="asiGame" style="visibility: hidden;">
 				<gw-icon iconKey="keyboard" name="Keyboard navigation available"></gw-icon>
@@ -67,7 +102,13 @@
 		<div>
 			<article id="artInfo" aria-labelledby="hInfo">
 				<h2 id="hInfo">Info</h2>
-				<button id="btnUndo">Undo</button>
+				<span><strong id="strBtm">Black</strong><strong id="strWtm">White</strong> to move</span>
+				<gw-option-listbox id="olbPpc" data-single="true"><fieldset>
+					<legend>Player's Piece Color</legend>
+					<label><input id="radPpcB" type="radio" name="ppc" checked="true">Black</label>
+					<label><input id="radPpcW" type="radio" name="ppc">White</label>
+				</fieldset></gw-option-listbox>
+				<button id="btnUndo" onclick="GW.Reversi.undo()">Undo</button>
 			</article>
 		</div>
 	</main>
@@ -106,6 +147,11 @@
 	<div class="hidden">
 		<span id="spnGameLbl">Reversi</span>
 		<span id="spnGameBoardLbl">Board</span>
+		<span id="spnCell">Cell</span>
+		<span id="spnEmpty">Empty</span>
+		<span id="spnBlackPiece">Black piece</span>
+		<span id="spnWhitePiece">White piece</span>
+		<span id="spnPlacePiece">Place piece</span>
 	</div>
 </body>
 </html>

@@ -18,39 +18,14 @@
 	--invalid-color: #5C01D8;
 	--invalid-text-background-color: #ff80c0;
 
-	--square-1-color: #d2f7f5;
-	--square-2-color: #c6acd2;
-	--square-3-color: #fff5d3;
-	--square-4-color: #f3bfd4;
-	--square-5-color: #e1f1bd;
-	--square-6-color: #ffcece;
-	--square-7-color: #b0d8ca;
-	--square-8-color: #f4c2f0;
-	--square-9-color: #f7c084;
-
-	--border-color-2: #0000cc;
-	--border-color-3: #af0344;
-	--border-color-4: #42a003;
-	--border-color-5: #760caf;
-
-	--cell-1-bkg-color: #FFFFFF;
-	--cell-1-color: #000000;
-	--cell-2-bkg-color: #dfdfff;
-	--cell-2-color: #0000ff;
-	--cell-3-bkg-color: #ddffdd;
-	--cell-3-color: #008000;
-	--cell-4-bkg-color: #eeddff;
-	--cell-4-color: #400080;
-	--cell-5-bkg-color: #80ffff;
-	--cell-5-color: #000080;
-	--cell-6-bkg-color: #80ff80;
-	--cell-6-color: #004000;
-	--cell-7-bkg-color: #ff80c0;
-	--cell-7-color: #400040;
-	--cell-8-bkg-color: #660000;
-	--cell-8-color: #ff9494;
-	--cell-9-bkg-color: #000000;
-	--cell-9-color: #ffffff;
+	--white-piece-start-color: rgba(255, 255, 255, 0.8);
+	--white-piece-end-color: rgba(255, 255, 255, 0.4);
+	--black-piece-start-color: rgba(100, 100, 100, 0.8);
+	--black-piece-end-color: rgba(0, 0, 0, 0.8);
+	--white-piece-text-color: #000000;
+	--black-piece-text-color: #FFFFFF;
+	--piece-shadow: rgba(0,0,0,0.25);
+	--board-bkg-gradient: linear-gradient(330deg,rgba(133, 71, 21, 1) 0%, rgba(217, 172, 132, 1) 100%);
 	
 	input {
 		color-scheme: light;
@@ -78,39 +53,14 @@
 		--invalid-color: #A35FFE;
 		--invalid-text-background-color: #660000;
 
-		--square-1-color: #136260;
-		--square-2-color: #432b4f;
-		--square-3-color: #6a5300;
-		--square-4-color: #73153a;
-		--square-5-color: #475c14;
-		--square-6-color: #6a0000;
-		--square-7-color: #204236;
-		--square-8-color: #3f0c3a;
-		--square-9-color: #4b2b05;
-
-		--border-color-2: #0000ee;
-		--border-color-3: #d90452;
-		--border-color-4: #55ce04;
-		--border-color-5: #a418ef;
-
-		--cell-1-bkg-color: #000000;
-		--cell-1-color: #ffffff;
-		--cell-2-bkg-color: #0000cc;
-		--cell-2-color: #dfdfff;
-		--cell-3-bkg-color: #008000;
-		--cell-3-color: #ddffdd;
-		--cell-4-bkg-color: #400080;
-		--cell-4-color: #eeddff;
-		--cell-5-bkg-color: #000080;
-		--cell-5-color: #80ffff;
-		--cell-6-bkg-color: #004000;
-		--cell-6-color: #80ff80;
-		--cell-7-bkg-color: #400040;
-		--cell-7-color: #ff80c0;
-		--cell-8-bkg-color: #ff9494;
-		--cell-8-color: #660000;
-		--cell-9-bkg-color: #ffffff;
-		--cell-9-color: #000000;
+		--white-piece-start-color: rgba(255, 255, 255, 0.8);
+		--white-piece-end-color: rgba(220, 220, 220, 0.4);
+		--black-piece-start-color: rgba(80, 80, 80, 0.8);
+		--black-piece-end-color: rgba(64, 64, 64, 0.4);
+		--white-piece-text-color: #000000;
+		--black-piece-text-color: #FFFFFF;
+		--piece-shadow: rgba(0,0,0,0.55);
+		--board-bkg-gradient: linear-gradient(330deg,rgba(15, 48, 14, 1) 0%, rgba(58, 156, 56, 1) 100%);
 		
 		input {
 			color-scheme: dark;
