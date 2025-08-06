@@ -103,13 +103,20 @@
 			<article id="artInfo" aria-labelledby="hInfo">
 				<h2 id="hInfo">Info</h2>
 				<span id="spnStatus" tabindex="-1">
-					<strong id="strBtm">Black</strong><strong id="strWtm">White</strong><span id="spnToMove">&nbsp;to move</span><span id="spnWins">&nbsp;wins!</span>
+					<strong id="strBtm" class="black-callout">Black</strong>
+					<strong id="strWtm" class="white-callout">White</strong>
+					<span id="spnToMove">&nbsp;to move</span>
+					<span id="spnWins">&nbsp;wins!</span>
 				</span>
 				<gw-option-listbox id="olbPpc" data-single="true"><fieldset>
 					<legend>Player's Piece Color</legend>
 					<label><input id="radPpcB" type="radio" name="ppc" checked="true">Black</label>
 					<label><input id="radPpcW" type="radio" name="ppc">White</label>
 				</fieldset></gw-option-listbox>
+				<span id="spnLockedPpc">Player's Piece Color:&nbsp;
+					<strong id="strLockedPpcBlack" class="black-callout">Black</strong>
+					<strong id="strLockedPpcWhite" class="white-callout">White</strong>
+				</span>
 				<table>
 					<tbody>
 						<tr>

@@ -138,6 +138,27 @@ main {
 			}
 		}
 	}
+
+	&[data-ppcLocked] {
+		#olbPpc {
+			display: none;
+		}
+		&:has(#radPpcB:checked) {
+			#strLockedPpcWhite {
+				display: none;
+			}
+		}
+		&:has(#radPpcW:checked) {
+			#strLockedPpcBlack {
+				display: none;
+			}
+		}
+	}
+	&:not([data-ppcLocked]) {
+		#spnLockedPpc {
+			display: none;
+		}
+	}
 }
 
 #shortsGame {
@@ -187,6 +208,17 @@ div:has(> #artInfo) {
 	display: flex;
 	align-items: flex-start;
 }
+
+.black-callout {
+	background-color: black;
+	color: white;
+}
+
+.white-callout {
+	background-color: white;
+	color: black;
+}
+
 #artInfo {
 	min-width: 200px;
 	min-height: 200px;
@@ -200,14 +232,6 @@ div:has(> #artInfo) {
 	strong {
 		padding: 2px;
 		border-radius: 20%;
-	}
-	#strWtm {
-		background-color: white;
-		color: black;
-	}
-	#strBtm {
-		background-color: black;
-		color: white;
 	}
 
 	table {

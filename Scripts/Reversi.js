@@ -107,7 +107,7 @@ window.GW = window.GW || {};
 			}
 			btnGrd.setAttribute("disabled", "true");
 		}
-		if(!document.getElementById("olbPpc").hasAttribute("disabled")) {
+		if(!mainEl.hasAttribute("data-ppcLocked")) {
 			if(ns.Data.ToMove === ns.Colors.White) {
 				document.getElementById("radPpcW").click();
 			}
