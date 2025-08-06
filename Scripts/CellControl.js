@@ -44,28 +44,29 @@ window.GW = window.GW || {};
 			grid-template-columns: 1fr;
 			grid-template-rows: 1fr;
 
-			&:has(:not(button):focus) {
-				&::before {
-					content: "";
-					position: absolute;
-					top: 0;
-					right: 0;
-					margin: 2px;
-					width: 15px;
-					height: 15px;
-					border-radius: 50%;
-					background-color: var(--background-color);
-				}
-				&::after {
-					content: "";
-					position: absolute;
-					top: 0;
-					right: 0;
-					margin: 5px;
-					width: 9px;
-					height: 9px;
-					border-radius: 50%;
-					background-color: var(--text-color);
+			&:not(&:has(button:active)) {
+				&:has(:focus) {
+					&::before {
+						content: "";
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: calc(100%);
+						height: calc(100%);
+						border: 2px solid var(--background-color);
+						z-index: 1;
+					}
+					&::after {
+						content: "";
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: calc(100% - 2px);
+						height: calc(100% - 2px);
+						margin: 1px;
+						border: 2px solid var(--text-color);
+						z-index: 2;
+					}
 				}
 			}
 
@@ -75,6 +76,7 @@ window.GW = window.GW || {};
 
 			gw-icon {
 				position: absolute;
+				z-index: 3;
 				top: 0;
 				left: 0;
 				width: 20%;
@@ -97,6 +99,7 @@ window.GW = window.GW || {};
 				background: var(--board-bkg-gradient);
 				box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.75);
 				position: relative;
+				z-index: 3;
 
 				&:is(:hover, :focus-within) {
 					transition: 0.3s;
