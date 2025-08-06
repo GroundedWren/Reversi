@@ -201,6 +201,7 @@ main {
 	display: flex;
 	align-items: flex-end;
 	height: min-content;
+	justify-content: center;
 }
 
 div:has(> #artInfo) {

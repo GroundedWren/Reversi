@@ -432,7 +432,7 @@ window.GW = window.GW || {};
 		#updateClickableState() {
 			const data = this.getData();
 			if(data.Color) {
-				this.removeAttribute("data-clickable");
+				this.#removeClickable();
 				this.Value = 0;
 				return;
 			}
@@ -468,8 +468,16 @@ window.GW = window.GW || {};
 				this.Value = value;
 			}
 			else {
-				this.removeAttribute("data-clickable");
+				this.#removeClickable();
 				this.Value = 0;
+			}
+		}
+
+		#removeClickable() {
+			const hadFocus = this.matches(`:focus-within`);
+			this.removeAttribute("data-clickable");
+			if(hadFocus) {
+				this.focus();
 			}
 		}
 	}
