@@ -48,8 +48,10 @@ window.GW = window.GW || {};
 	ns.onNewGame = (event) => {
 		event.preventDefault();
 
-		ns.generateGameData();
 		Last.clear();
+		document.getElementById("frmHost").reset();
+
+		ns.generateGameData();
 		ns.renderGame();
 	};
 
@@ -190,11 +192,13 @@ window.GW = window.GW || {};
 		const cntWhite = document.querySelectorAll(`gw-cell[data-color="${ns.Colors.White}"]`).length;
 		document.getElementById("tdWhiteCount").innerText = cntWhite;
 
-		document.getElementById("tdBlankCount").innerText = document.querySelectorAll(
-			`gw-cell:not([data-color])`
-		).length;
+		const cntBlank = document.querySelectorAll(`gw-cell:not([data-color])`).length;
+		document.getElementById("tdBlankCount").innerText = cntBlank;
 
-		document.getElementById("main").setAttribute("data-winning", (cntBlack > cntWhite)
+
+		const main = document.getElementById("main");
+		main.setAttribute("data-initial", cntBlank === 60);
+		main.setAttribute("data-winning", (cntBlack > cntWhite)
 			? ns.Colors.Black
 			: ns.Colors.White
 		);
@@ -280,5 +284,11 @@ window.GW = window.GW || {};
 		targetCell.querySelector(`button`)?.click();
 
 		setTimeout(() => GW.Controls.Toaster.showToast("Move performed", {invisible: true}), 0);
+	};
+
+	ns.startHost = (event) => {
+		event.preventDefault();
+
+		GW.Controls.Toaster.showToast("Coming soon!");
 	};
 }) (window.GW.Reversi = window.GW.Reversi || {});
