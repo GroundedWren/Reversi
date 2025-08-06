@@ -159,98 +159,10 @@ main {
 			display: none;
 		}
 	}
-}
 
-#shortsGame {
-	grid-area: g;
-	display: grid;
-	grid-template-rows: 0fr auto;
-	justify-items: center;
-}
-
-#tblBoard {
-	display: grid;
-	grid-template-columns: repeat(8, 1fr);
-	grid-template-rows: repeat(8, auto);
-
-	--link-color: var(--border-color);
-
-	max-height: 1000px;
-
-	background: var(--board-bkg-gradient);
-
-	tbody, tr {
-		display: contents;
-	}
-
-	td {
-		aspect-ratio: 1 / 1;
-		width: var(--cell-size);
-		display: grid;
-		grid-template-columns: 1fr;
-		grid-template-rows: 1fr;
-		padding: 0;
-		border: 0;
-		box-shadow: 0px 0px 0px 1px var(--border-color);
-
-		position: relative;
-	}
-}
-
-#asiGame {
-	display: flex;
-	align-items: flex-end;
-	height: min-content;
-	justify-content: center;
-}
-
-div:has(> #artInfo) {
-	grid-area: i;
-	display: flex;
-	align-items: flex-start;
-}
-
-.black-callout {
-	background-color: black;
-	color: white;
-}
-
-.white-callout {
-	background-color: white;
-	color: black;
-}
-
-#artInfo {
-	min-width: 200px;
-	min-height: 200px;
-	margin-inline: 5px;
-
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	gap: 5px;
-
-	strong {
-		padding: 2px;
-		border-radius: 20%;
-	}
-
-	table {
-		border: none;
-
-		th, td {
-			border: none;
-		}
-
-		th {
-			width: 0;
-			word-break: keep-all;
-			padding-inline: 2px;
-			text-align: end;
-		}
-
-		td {
-			width: 100%;
+	&[data-initial="false"] {
+		#frmHost {
+			display: none;
 		}
 	}
 
@@ -305,6 +217,115 @@ div:has(> #artInfo) {
 			display: none;
 		}
 	}
+}
+
+#shortsGame {
+	grid-area: g;
+	display: grid;
+	grid-template-rows: 0fr auto;
+	justify-items: center;
+}
+
+#tblBoard {
+	display: grid;
+	grid-template-columns: repeat(8, 1fr);
+	grid-template-rows: repeat(8, auto);
+
+	--link-color: var(--border-color);
+
+	max-height: 1000px;
+
+	background: var(--board-bkg-gradient);
+
+	tbody, tr {
+		display: contents;
+	}
+
+	td {
+		aspect-ratio: 1 / 1;
+		width: var(--cell-size);
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr;
+		padding: 0;
+		border: 0;
+		box-shadow: 0px 0px 0px 1px var(--border-color);
+
+		position: relative;
+	}
+}
+
+#asiGame {
+	display: flex;
+	align-items: flex-end;
+	height: min-content;
+	justify-content: center;
+}
+
+#leftArticles {
+	grid-area: i;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 10px;
+
+	> article {
+		min-width: 200px;
+		margin-inline: 5px;
+	}
+}
+
+#artInfo {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 5px;
+
+	strong {
+		padding: 2px;
+		border-radius: 20%;
+	}
+
+	table {
+		border: none;
+
+		th, td {
+			border: none;
+		}
+
+		th {
+			width: 0;
+			word-break: keep-all;
+			padding-inline: 2px;
+			text-align: end;
+		}
+
+		td {
+			width: 100%;
+		}
+	}
+}
+
+#artOnline {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+
+	form {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+	}
+}
+
+.black-callout {
+	background-color: black;
+	color: white;
+}
+
+.white-callout {
+	background-color: white;
+	color: black;
 }
 
 footer {

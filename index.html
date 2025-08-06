@@ -107,7 +107,7 @@
 				<span>(<kbd>Alt</kbd>+<kbd>S</kbd>)</span>
 			</aside>
 		</gw-shortcuts>
-		<div>
+		<div id="leftArticles">
 			<article id="artInfo" aria-labelledby="hInfo">
 				<h2 id="hInfo">Info</h2>
 				<span id="spnStatus" tabindex="-1">
@@ -116,11 +116,6 @@
 					<span id="spnToMove">&nbsp;to move</span>
 					<span id="spnWins">&nbsp;wins!</span>
 				</span>
-				<gw-option-listbox id="olbPpc" data-single="true"><fieldset>
-					<legend>Player's Piece Color</legend>
-					<label><input id="radPpcB" type="radio" name="ppc" checked="true">Black</label>
-					<label><input id="radPpcW" type="radio" name="ppc">White</label>
-				</fieldset></gw-option-listbox>
 				<span id="spnLockedPpc">Player's Piece Color:&nbsp;
 					<strong id="strLockedPpcBlack" class="black-callout">Black</strong>
 					<strong id="strLockedPpcWhite" class="white-callout">White</strong>
@@ -140,6 +135,27 @@
 				</table>
 				<button id="btnGrd" onclick="GW.Reversi.moveGreedily()">Greedy Move</button>
 				<button id="btnUndo" disabled onclick="GW.Reversi.undo()">Undo</button>
+			</article>
+			<article id="artOnline" aria-labelledby="hOnline">
+				<h2 id="hOnline">Online</h2>
+				<button onclick="GW.Controls.Toaster.showToast('Coming soon!')">Connect</button>
+				<form id="frmHost" aria-labelledby="hHost" onsubmit="GW.Reversi.startHost(event)">
+					<h3 id="hHost">Host</h3>
+					<label class="input-vertical">
+						Game name
+						<input type="text" name="txtGameName" required>
+					</label>
+					<label class="input-vertical">
+						Game passkey
+						<input type="text" name="txtGamePass" required>
+					</label>
+					<gw-option-listbox id="olbPpc" data-single="true"><fieldset>
+						<legend>Your Piece Color</legend>
+						<label><input id="radPpcB" type="radio" name="ppc" checked="true">Black</label>
+						<label><input id="radPpcW" type="radio" name="ppc">White</label>
+					</fieldset></gw-option-listbox>
+					<button type="submit">Create</button>
+				</form>
 			</article>
 		</div>
 	</main>
