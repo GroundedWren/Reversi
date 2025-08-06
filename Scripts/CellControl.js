@@ -53,11 +53,26 @@ window.GW = window.GW || {};
 				box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.75);
 				position: relative;
 
+				&:is(:hover, :focus-within) {
+					transition: 0.3s;
+					opacity: 1;
+				}
+				&:not(:is(:hover, :focus-within)) {
+					transition: 0.1s;
+					opacity: var(--btn-start-opacity, 0);
+				}
+				&:focus-within {
+					transition: none;
+				}
+
 				&::after {
 					content: "+";
 				}
 
 				&:active {
+					outline: none !important;
+					outline-width: 0 !important;
+
 					box-shadow: none;
 
 					&::before {
