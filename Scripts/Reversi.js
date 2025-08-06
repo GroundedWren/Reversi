@@ -19,6 +19,9 @@ window.GW = window.GW || {};
 						btnUndo.removeAttribute("disabled");
 					}
 					else {
+						if(btnUndo.matches(`:focus-within`)) {
+							document.getElementById("spnStatus").focus();
+						}
 						btnUndo.setAttribute("disabled", "true");
 					}
 					break;
@@ -82,7 +85,11 @@ window.GW = window.GW || {};
 		}
 		else {
 			mainEl.removeAttribute("data-ToMove");
-			document.getElementById("btnGrd").setAttribute("disabled", "true");
+			const btnGrd = document.getElementById("btnGrd");
+			if(btnGrd.matches(`:focus-within`)) {
+				document.getElementById("spnStatus").focus();
+			}
+			btnGrd.setAttribute("disabled", "true");
 		}
 		if(!document.getElementById("olbPpc").hasAttribute("disabled")) {
 			if(ns.Data.ToMove === ns.Colors.White) {
@@ -256,5 +263,6 @@ window.GW = window.GW || {};
 
 		targetCell.querySelector(`button`)?.click();
 
+		setTimeout(() => GW.Controls.Toaster.showToast("Move performed", {invisible: true}), 0);
 	};
 }) (window.GW.Reversi = window.GW.Reversi || {});
