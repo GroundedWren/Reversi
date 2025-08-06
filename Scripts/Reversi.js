@@ -10,30 +10,46 @@ window.GW = window.GW || {};
 		Black: "b",
 		White: "w",
 	};
-	const Last = new Proxy({Data: []}, {
-		set(_target, property, value, _receiver) {
-			switch(property) {
-				case "Data":
-					const btnUndo = document.getElementById("btnUndo");
-					if(value) {
-						btnUndo.removeAttribute("disabled");
-					}
-					else {
-						if(btnUndo.matches(`:focus-within`)) {
-							document.getElementById("spnStatus").focus();
-						}
-						btnUndo.setAttribute("disabled", "true");
-					}
-					break;
+
+	const Last = {};
+	(function Last(lastNs) {
+		const DataObjArray = [];
+
+		lastNs.push = function push(dataObj) {
+			if(!dataObj) {
+				return;
 			}
-			return Reflect.set(...arguments);
+			DataObjArray.push(dataObj);
+			document.getElementById("btnUndo").removeAttribute("disabled");
 		}
-	});
+
+		lastNs.pop = function pop() {
+			const dataObj = DataObjArray.pop();
+			if(!DataObjArray.length) {
+				disableUndo();
+			}
+			return dataObj;
+		}
+
+		lastNs.clear = function clear() {
+			DataObjArray.length = 0;
+			disableUndo();
+		}
+
+		function disableUndo() {
+			const btnUndo = document.getElementById("btnUndo");
+			if(btnUndo.matches(`:focus-within`)) {
+				document.getElementById("spnStatus").focus();
+			}
+			btnUndo.setAttribute("disabled", "true");
+		}
+	})(Last);
 	
 	ns.onNewGame = (event) => {
 		event.preventDefault();
 
 		ns.generateGameData();
+		Last.clear();
 		ns.renderGame();
 	};
 
@@ -102,7 +118,6 @@ window.GW = window.GW || {};
 	}
 
 	ns.renderGame = function renderGame() {
-		Last.Data = null;
 		localStorage.removeItem("data");
 
 		ns.Data = new Proxy(ns.Data, {
@@ -136,13 +151,14 @@ window.GW = window.GW || {};
 	}
 
 	ns.undo = async () => {
-		if(!Last.Data) {
+		const lastDataObj = Last.pop();
+		if(!lastDataObj) {
 			return;
 		}
 
 		const targetCell = document.querySelector(`gw-cell:has([tabindex="0"])`);
 
-		ns.Data = Last.Data;
+		ns.Data = lastDataObj;
 		ns.renderGame();
 		setTimeout(() => GW.Controls.Toaster.showToast("Action undone", {invisible: true}), 0);
 
@@ -183,7 +199,7 @@ window.GW = window.GW || {};
 			: ns.Colors.White
 		);
 
-		Last.Data = JSON.parse(localStorage.getItem("data"));
+		Last.push(JSON.parse(localStorage.getItem("data")));
 		localStorage.setItem("data", JSON.stringify(ns.Data));
 	};
 
