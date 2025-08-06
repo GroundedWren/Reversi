@@ -272,13 +272,11 @@ window.GW = window.GW || {};
 					document.addEventListener("DOMContentLoaded", () => {
 						if(!this.IsInitialized) {
 							this.initialize();
-							this.renderContent();
 						}
 					});
 				}
 				else {
 					this.initialize();
-					this.renderContent();
 				}
 			}
 		}
@@ -288,6 +286,9 @@ window.GW = window.GW || {};
 			this.setUpDataProxy();
 			this.addEventListener("focusout", this.onFocusout);
 			this.IsInitialized = true;
+
+			this.#doRender(); // Do one up-front to draw <em>something</em> as fast as possible
+			this.renderContent(); // And queue one to make sure the final state is right
 		}
 
 		/**
