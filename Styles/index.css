@@ -182,10 +182,6 @@ main {
 			position: relative !important;
 			z-index: 100 !important;
 		}
-		button:active {
-			outline: none !important;
-			outline-width: 0 !important;
-		}
 	}
 }
 
