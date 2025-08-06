@@ -38,9 +38,54 @@ window.GW = window.GW || {};
 		static Name = "gw-cell";
 		// Element CSS rules
 		static Style = `${CellEl.Name} {
+			position: relative;
+
 			display: grid;
 			grid-template-columns: 1fr;
 			grid-template-rows: 1fr;
+
+			&:has(:not(button):focus) {
+				&::before {
+					content: "";
+					position: absolute;
+					top: 0;
+					right: 0;
+					margin: 2px;
+					width: 15px;
+					height: 15px;
+					border-radius: 50%;
+					background-color: var(--background-color);
+				}
+				&::after {
+					content: "";
+					position: absolute;
+					top: 0;
+					right: 0;
+					margin: 5px;
+					width: 9px;
+					height: 9px;
+					border-radius: 50%;
+					background-color: var(--text-color);
+				}
+			}
+
+			*:is(:focus, :focus-visible) {
+				outline: none !important;
+			}
+
+			gw-icon {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 20%;
+				height: 20%;
+
+				margin-block-start: 2px;
+				margin-inline-start: 2px;
+
+				background-color: var(--background-color-2);
+				border-radius: 50%;
+			}
 
 			&:not([data-clickable]) {
 				button {
@@ -70,9 +115,6 @@ window.GW = window.GW || {};
 				}
 
 				&:active {
-					outline: none !important;
-					outline-width: 0 !important;
-
 					box-shadow: none;
 
 					&::before {
@@ -296,7 +338,7 @@ window.GW = window.GW || {};
 				return btn;
 			}
 			else {
-				return this.firstElementChild;
+				return this.querySelector(`[role="figure"]`);
 			}
 		}
 
@@ -319,7 +361,24 @@ window.GW = window.GW || {};
 
 			this.innerHTML = `${data.Color
 				? `
-					<div tabindex="-1" role="figure" class="piece" aria-labelledby="${CellEl.getPieceLabel(data.Color)}">
+					${data.IsLastMove
+						? `<gw-icon iconKey="star-of-life" name="last move" aria-hidden="true"></gw-icon>`
+						: ""
+					}
+					${data.IsLastFlip
+						? `<gw-icon iconKey="refresh" name="flipped" aria-hidden="true"></gw-icon>`
+						: ""
+					}
+					<div 
+						tabindex="-1" 
+						role="figure"
+						class="piece"
+						aria-labelledby="${CellEl.getPieceLabel(data.Color)}"
+						aria-describedby="${
+							(data.IsLastMove ? "spnCellLastMove " : "")
+							+ (data.IsLastFlip ? "spnCellLastFlip " : "")
+						}"
+					>
 					</div>` 
 				: `
 					<div tabindex="-1" role="figure" class="empty" aria-labelledby="spnEmpty">
@@ -337,6 +396,10 @@ window.GW = window.GW || {};
 			const data = this.getData();
 			data.Color = ns.Data.ToMove;
 			ns.Data.ToMove = ns.getOppositeColor(ns.Data.ToMove);
+			Object.values(CellEl.InstanceMap).forEach(cellEl => {
+				cellEl.getData().IsLastMove = (cellEl === this);
+				cellEl.getData().IsLastFlip = false;
+			});
 
 			const branches = SURROUNDING_DELTAS.map((delta) => { return {
 				RowIdx: this.RowIdx, 
@@ -352,7 +415,10 @@ window.GW = window.GW || {};
 				const adjCell = (ns.Data[branch.RowIdx] || {})[branch.ColIdx];
 				if(adjCell && adjCell.Color) {
 					if(adjCell.Color === data.Color) {
-						branch.Cells.forEach(cell => cell.Color = data.Color);
+						branch.Cells.forEach(cell => {
+							cell.Color = data.Color;
+							cell.IsLastFlip = true;
+						});
 					}
 					else {
 						branch.Cells.push(adjCell);
