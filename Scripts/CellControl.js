@@ -290,8 +290,8 @@ window.GW = window.GW || {};
 			this.addEventListener("focusout", this.onFocusout);
 			this.IsInitialized = true;
 
-			this.#doRender(); // Do one up-front to draw <em>something</em> as fast as possible
-			this.renderContent(); // And queue one to make sure the final state is right
+			this.#doRender(); //Don't batch the first one - we want something rendered as fast as possible
+			CellEl.RenderBatcher.run(); //Trigger the render listener after laying this out
 		}
 
 		/**
