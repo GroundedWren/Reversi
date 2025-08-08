@@ -176,14 +176,37 @@ window.GW = window.GW || {};
 		}
 	};
 
+	ns.passTurn = () => {
+		ns.Data.ToMove = ns.getOppositeColor(ns.Data.ToMove);
+		ns.Data.LastMovePassed = true;
+		ns.CellEl.RenderBatcher.run();
+	};
+
 	const onRender = async () => {
+		const btnPass = document.getElementById("btnPass");
+		const btnGrd = document.getElementById("btnGrd");
 		await ns.CellEl.RenderBatcher.BatchPromise;
+
+		const cntBlank = document.querySelectorAll(`gw-cell:not([data-color])`).length;
 		if(!ns.CellEl.getClickableCells().length) {
-			ns.Data.ToMove = ns.getOppositeColor(ns.Data.ToMove);
-			ns.CellEl.updateClickableCells();
-			if(!ns.CellEl.getClickableCells().length) {
+			if(ns.Data.LastMovePassed || cntBlank === 0) {
 				onGameOver();
 			}
+			else {
+				btnPass.classList.remove("hidden");
+				if(btnGrd.matches(`:focus-within`)) {
+					btnPass.focus();
+				}
+				btnGrd.classList.add("hidden");
+			}
+		}
+		else {
+			if(btnPass.matches(`:focus-within`)){
+				document.getElementById("spnStatus").focus();
+			}
+			btnPass.classList.add("hidden");
+			btnGrd.classList.remove("hidden");
+			ns.Data.LastMovePassed = false;
 		}
 
 		const cntBlack = document.querySelectorAll(`gw-cell[data-color="${ns.Colors.Black}"]`).length;
@@ -192,7 +215,6 @@ window.GW = window.GW || {};
 		const cntWhite = document.querySelectorAll(`gw-cell[data-color="${ns.Colors.White}"]`).length;
 		document.getElementById("tdWhiteCount").innerText = cntWhite;
 
-		const cntBlank = document.querySelectorAll(`gw-cell:not([data-color])`).length;
 		document.getElementById("tdBlankCount").innerText = cntBlank;
 
 
