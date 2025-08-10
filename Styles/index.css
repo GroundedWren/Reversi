@@ -8,6 +8,10 @@ File Description: Index.html styles
 	--cell-size: 80px;
 }
 
+.reveal-moves {
+	--btn-start-opacity: 1;
+}
+
 @media (width <= 942px) or (height <= 810px) {
 	:root {
 		--cell-size: 60px;

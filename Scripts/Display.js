@@ -21,5 +21,10 @@ window.GW.Reversi = window.GW.Reversi || {};
 				break;
 		}
 		document.documentElement.classList.toggle("theme-dark", cbxDarkMode.checked);
+
+		const cbxRevealMoves = document.getElementById("cbxRevealMoves");
+		const revealMoves = localStorage.getItem("reveal-moves") === "true";
+		cbxRevealMoves.checked = revealMoves;
+		document.documentElement.classList.toggle("reveal-moves", revealMoves);
 	}
 }) (window.GW.Reversi.Display = window.GW.Reversi.Display || {});

@@ -109,6 +109,13 @@
 						></gw-switch>
 						Dark mode
 					</label>
+					<label>
+						<gw-switch><input id="cbxRevealMoves"
+							type="checkbox"
+							oninput="localStorage.setItem('reveal-moves', event.target.checked ? 'true' : 'false');GW.Reversi.Display.updatePrefs();"
+						></gw-switch>
+						Reveal moves
+					</label>
 				</div>
 			</details>
 			<button onclick="document.getElementById('diaNew').showModal()">New Game</button>
