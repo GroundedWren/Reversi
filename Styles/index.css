@@ -82,19 +82,18 @@ body {
 
 	display: grid;
 	grid-template-rows: auto 1fr auto;
-}
 
-main {
-	max-width: 1600px;
-	height: 100%;
-	padding-block: 5px;
-	margin-block: auto;
-	margin-inline: auto;
+	&[data-connected] {
+		#btnGrd {
+			display: none;
+		}
+	}
 
-	display: grid;
-	grid-template-areas: 
-		"x g i";
-	grid-template-columns: minmax(0, 300px) auto minmax(300px, auto);
+	&:not([data-connected]) {
+		#btnReset, #artOnline {
+			display: none;
+		}
+	}
 
 	&:not([data-ToMove]) {
 		&[data-winning="w"] {
@@ -152,24 +151,19 @@ main {
 			display: none;
 		}
 	}
+}
 
-	&:is([data-initial="false"], [data-connected]) {
-		#btnHost {
-			display: none;
-		}
-	}
+main {
+	max-width: 1600px;
+	height: 100%;
+	padding-block: 5px;
+	margin-block: auto;
+	margin-inline: auto;
 
-	&[data-connected] {
-		#btnGrd {
-			display: none;
-		}
-	}
-
-	&:not([data-connected]) {
-		#btnPush, #btnReset {
-			display: none;
-		}
-	}
+	display: grid;
+	grid-template-areas: 
+		"x g i";
+	grid-template-columns: minmax(0, 300px) auto minmax(300px, auto);
 }
 
 #shortsGame {
@@ -215,11 +209,10 @@ main {
 	justify-content: center;
 }
 
-#leftArticles {
+#rightArticles {
 	grid-area: i;
 	display: flex;
 	flex-direction: column;
-	align-items: flex-start;
 	gap: 10px;
 
 	> article {
@@ -378,6 +371,12 @@ dialog {
 		background-color: var(--background-color-2);
 		opacity: 0.75;
 	}
+}
+
+#diaNew > article {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
 }
 
 #diaInfo > article {

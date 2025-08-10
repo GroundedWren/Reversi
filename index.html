@@ -176,7 +176,7 @@
 				<span>(<kbd>Alt</kbd>+<kbd>S</kbd>)</span>
 			</aside>
 		</gw-shortcuts>
-		<div id="leftArticles">
+		<div id="rightArticles">
 			<article id="artInfo" aria-labelledby="hInfo">
 				<h2 id="hInfo">Info</h2>
 				<span id="spnStatus" tabindex="-1">
@@ -211,53 +211,6 @@
 				<h2 id="hOnline">Online</h2>
 				<output id="outConnected" tabindex="-1"></output>
 				<button id="btnPush" onclick="GW.Reversi.pushChanges()">Push changes</button>
-				<button onclick="GW.Reversi.onConnectClicked()">Connect</button>
-				<dialog id="diaConnect">
-					<form aria-labelledby="hConnect" onsubmit="GW.Reversi.onConnectSubmit(event);">
-						<h2>Connect</h2>
-						<div class="input-grid">
-							<label>
-								<span>Game name:</span>
-								<input type="text" name="gameName" required>
-							</label>
-							<label>
-								<span>Game passkey:</span>
-								<input type="text" name="gamePass" required>
-							</label>
-						</div>
-						<output></output>
-						<footer>
-							<button type="button" onclick="document.getElementById('diaConnect').close();">Close</button>
-							<button type="submit">Connect</button>
-						</footer>
-					</form>
-				</dialog>
-				<button id="btnHost" onclick="GW.Reversi.onHostClicked()">Host</button>
-				<dialog id="diaHost">
-					<form id="frmHost" aria-labelledby="hHost" onsubmit="GW.Reversi.onHostSubmit(event)">
-						<h3 id="hHost">Host</h3>
-						<div class="input-grid">
-							<label>
-								<span>Game name:</span>
-								<input type="text" name="gameName" required>
-							</label>
-							<label>
-								<span>Game passkey:</span>
-								<input type="text" name="gamePass" required>
-							</label>
-						</div>
-						<gw-option-listbox id="olbPpc" data-single="true"><fieldset>
-							<legend>Your Piece Color</legend>
-							<label><input id="radPpcB" type="radio" name="ppc" value="b" checked="true">Black</label>
-							<label><input id="radPpcW" type="radio" name="ppc" value="w">White</label>
-						</fieldset></gw-option-listbox>
-						<output></output>
-						<footer>
-							<button type="button" onclick="document.getElementById('diaHost').close();">Close</button>
-							<button type="submit">Create</button>
-						</footer>
-					</form>
-				</dialog>
 			</article>
 		</div>
 	</main>
@@ -308,11 +261,56 @@
 		</article>
 	</dialog>
 	<dialog id="diaNew">
-		<form aria-labelledby="hNew" onsubmit="GW.Reversi.onNewGame(event);document.getElementById('diaNew').close();">
+		<article aria-labelledby="hNew">
 			<h2 id="hNew">New Game</h2>
+			<button id="btnConnect" onclick="GW.Reversi.onConnectClicked()" autofocus>Connect</button>
+			<button id="btnHost" onclick="GW.Reversi.onHostClicked()">Host</button>
+			<button id="btnLocal" onclick="GW.Reversi.onNewGame()">Local</button>
+			<button onclick="document.getElementById('diaNew').close()">Cancel</button>
+		</article>
+	</dialog>
+	<dialog id="diaHost">
+		<form id="frmHost" aria-labelledby="hHost" onsubmit="GW.Reversi.onHostSubmit(event)">
+			<h3 id="hHost">Host</h3>
+			<div class="input-grid">
+				<label>
+					<span>Game name:</span>
+					<input type="text" name="gameName" required>
+				</label>
+				<label>
+					<span>Game passkey:</span>
+					<input type="text" name="gamePass" required>
+				</label>
+			</div>
+			<gw-option-listbox id="olbPpc" data-single="true"><fieldset>
+				<legend>Your Piece Color</legend>
+				<label><input id="radPpcB" type="radio" name="ppc" value="b" checked="true">Black</label>
+				<label><input id="radPpcW" type="radio" name="ppc" value="w">White</label>
+			</fieldset></gw-option-listbox>
+			<output></output>
 			<footer>
-				<button type="submit">Begin</button>
-				<button type="button" onclick="document.getElementById('diaNew').close()">Cancel</button>
+				<button type="button" onclick="document.getElementById('diaHost').close();">Close</button>
+				<button type="submit">Create</button>
+			</footer>
+		</form>
+	</dialog>
+	<dialog id="diaConnect">
+		<form aria-labelledby="hConnect" onsubmit="GW.Reversi.onConnectSubmit(event);">
+			<h2>Connect</h2>
+			<div class="input-grid">
+				<label>
+					<span>Game name:</span>
+					<input type="text" name="gameName" required>
+				</label>
+				<label>
+					<span>Game passkey:</span>
+					<input type="text" name="gamePass" required>
+				</label>
+			</div>
+			<output></output>
+			<footer>
+				<button type="button" onclick="document.getElementById('diaConnect').close();">Close</button>
+				<button type="submit">Connect</button>
 			</footer>
 		</form>
 	</dialog>

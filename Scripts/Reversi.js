@@ -46,9 +46,8 @@ window.GW = window.GW || {};
 		}
 	})(Last);
 	
-	ns.onNewGame = (event) => {
-		event.preventDefault();
-
+	ns.onNewGame = () => {
+		document.getElementById("diaNew").close();
 		document.querySelectorAll(`[id^="gwToast"]`).forEach(toastEl => toastEl.remove());
 
 		Last.clear();
@@ -68,7 +67,7 @@ window.GW = window.GW || {};
 			ns.SnapshotUnsubscribe = null;
 		}
 		document.getElementById("outConnected").innerText = "";
-		document.getElementById("main").removeAttribute("data-connected");
+		document.body.removeAttribute("data-connected");
 	}
 
 	ns.generateGameData = () => {
@@ -112,14 +111,13 @@ window.GW = window.GW || {};
 	}
 
 	ns.onToggleToMove = () => {
-		const mainEl = document.getElementById("main");
 		if(ns.Data.ToMove) {
-			mainEl.setAttribute("data-ToMove", ns.Data.ToMove);
+			document.body.setAttribute("data-ToMove", ns.Data.ToMove);
 		}
 		else {
-			mainEl.removeAttribute("data-ToMove");
+			document.body.removeAttribute("data-ToMove");
 		}
-		if(!mainEl.hasAttribute("data-connected")) {
+		if(!document.body.hasAttribute("data-connected")) {
 			if(ns.Data.ToMove === ns.Colors.White) {
 				document.getElementById("radPpcW").click();
 			}
@@ -183,12 +181,16 @@ window.GW = window.GW || {};
 		const btnPush = document.getElementById("btnPush");
 		const ppc = document.getElementById("olbPpc").Value;
 
+		const onlineGame = localStorage.getItem("online-game");
+		if(!onlineGame) {
+			return;
+		}
+
 		const gameDocData = await GW.Firebase.getDoc(GW.Firebase.doc(
 			GW.Firebase.Firestore,
-			"reversi_games",
-			localStorage.getItem("online-game")
+			"reversi_games", onlineGame
 		));
-		if(!gameDocData || !gameDocData.exists()) {
+		if(!gameDocData.exists()) {
 			return;
 		}
 
@@ -287,9 +289,8 @@ window.GW = window.GW || {};
 
 		document.getElementById("tdBlankCount").innerText = cntBlank;
 
-		const main = document.getElementById("main");
-		main.setAttribute("data-initial", cntBlank === 60);
-		main.setAttribute("data-winning", (cntBlack > cntWhite)
+		document.body.setAttribute("data-initial", cntBlank === 60);
+		document.body.setAttribute("data-winning", (cntBlack > cntWhite)
 			? ns.Colors.Black
 			: ns.Colors.White
 		);
@@ -370,7 +371,7 @@ window.GW = window.GW || {};
 	};
 
 	ns.moveGreedily = () => {
-		if(document.getElementById("main").hasAttribute("data-connected")) {
+		if(document.body.hasAttribute("data-connected")) {
 			GW.Controls.Toaster.showToast("Cannot move greedily while connected online");
 			return;
 		}
@@ -385,11 +386,14 @@ window.GW = window.GW || {};
 	};
 
 	ns.onHostClicked = () => {
+		document.getElementById("diaNew").close();
 		if(!GW.Firebase?.Auth?.currentUser) {
 			document.querySelector(`gw-account`).focus();
 			GW.Controls.Toaster.showToast("Please log in first");
 			return;
 		}
+
+		ns.onNewGame();
 
 		document.getElementById("diaHost").showModal();
 	};
@@ -438,6 +442,7 @@ window.GW = window.GW || {};
 	};
 
 	ns.onConnectClicked = () => {
+		document.getElementById("diaNew").close();
 		if(!GW.Firebase?.Auth?.currentUser) {
 			document.querySelector(`gw-account`).focus();
 			GW.Controls.Toaster.showToast("Please log in first");
@@ -509,7 +514,7 @@ window.GW = window.GW || {};
 			return;
 		}
 
-		document.getElementById("main").setAttribute("data-connected", "true");
+		document.body.setAttribute("data-connected", "true");
 
 		document.getElementById("outConnected").innerText = `Connected to: ${gameName}`;
 
