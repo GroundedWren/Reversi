@@ -6,6 +6,59 @@
 	<meta name="description" content="Reversi player">
 	<title>Reversi</title>
 
+	<script>
+		/**
+		 * A script for a loading veil
+		 * @author Vera Konigin vera@groundedwren.com
+		 * https://groundedwren.neocities.org
+		 */
+		window.GW = window.GW || {};
+		window.GW.Controls = window.GW.Controls || {};
+		(function Veil(ns) {
+			ns.DeferKeys = {"DOMContentLoaded": true, "GW.Controls.AccountEl": true};
+			
+			/**
+			 * Defers the lowering of the veil until a key is cleared
+			 * @param {string} key The defer key to keep the veil up
+			 */
+			ns.addDefer = function addDefer(key) {
+				ns.DeferKeys[key] = true;
+			}
+			
+			/**
+			 * Marks a defer key as complete and clears the veil if no remain
+			 * @param {string} key The key to clear
+			 */
+			ns.clearDefer = function clearDefer(key) {
+				delete ns.DeferKeys[key];
+				if(Object.keys(ns.DeferKeys).length === 0) {
+					setTimeout(() => document.getElementById("styGwLoad")?.remove(), 0);
+				}
+			}
+			
+			document.head.insertAdjacentHTML("beforeend", `
+				<style id="styGwLoad">
+					body {
+						opacity: 0;
+					}
+					html {
+						width: 100vw;
+						height: 100vh;
+						background-color: var(--veil-light-color, #E3E3E3) !important;
+					}
+					@media(prefers-color-scheme: dark) {
+						html {
+							background-color: var(--veil-dark-color, #242424) !important;
+						}
+					}
+				</style>
+			`);
+			window.addEventListener("DOMContentLoaded", function onDOMContentLoadedVeil() {
+				ns.clearDefer("DOMContentLoaded");
+			});
+		}) (window.GW.Controls.Veil = window.GW.Controls.Veil || {});
+	</script>
+
 	<link href="./Styles/variables.css" rel="stylesheet" type="text/css">
 	<link href="./Styles/main.css" rel="stylesheet" type="text/css">
 
@@ -15,6 +68,7 @@
 	<script src="./Scripts/ToasterControl.js"></script>
 	<script src="./Scripts/ShortcutsControl.js"></script>
 	<script src="./Scripts/OptionListboxControl.js"></script>
+	<script type="module" src="./Scripts/AccountControl.js"></script>
 	
 	<script src="./Scripts/Display.js"></script>
 	<script src="./Scripts/Reversi.js"></script>
@@ -35,6 +89,14 @@
 			<button onclick="document.getElementById('diaInfo').showModal()">
 				<gw-icon iconKey="circle-info" name="Instructions"></gw-icon>
 			</button>
+			<gw-account
+				apiKey="AIzaSyDWkr2_TkwU9bQg0vS8OaLpMkcVCExeCow"
+				authDomain="groundedwren.firebaseapp.com"
+				projectId="groundedwren"
+				storageBucket="groundedwren.firebasestorage.app"
+				messagingSenderId="967981787659"
+				appId="1:967981787659:web:87d5e9396be3f89df4350e"
+			></gw-account>
 			<details class="bubbler">
 				<summary>
 					<gw-icon iconKey="gear" name="Settings"></gw-icon>
@@ -134,29 +196,61 @@
 					</tbody>
 				</table>
 				<button id="btnGrd" onclick="GW.Reversi.moveGreedily()">Greedy Move</button>
-				<button id="btnPass" onclick="GW.Reversi.pass()" class="hidden">Pass</button>
+				<button id="btnReset" onclick="GW.Reversi.reset()" class="hidden">Reset</button>
+				<button id="btnPass" onclick="GW.Reversi.passTurn()" class="hidden">Pass</button>
 				<button id="btnUndo" disabled onclick="GW.Reversi.undo()">Undo</button>
 			</article>
 			<article id="artOnline" aria-labelledby="hOnline">
 				<h2 id="hOnline">Online</h2>
-				<button onclick="GW.Controls.Toaster.showToast('Coming soon!')">Connect</button>
-				<form id="frmHost" aria-labelledby="hHost" onsubmit="GW.Reversi.startHost(event)">
-					<h3 id="hHost">Host</h3>
-					<label class="input-vertical">
-						Game name
-						<input type="text" name="txtGameName" required>
-					</label>
-					<label class="input-vertical">
-						Game passkey
-						<input type="text" name="txtGamePass" required>
-					</label>
-					<gw-option-listbox id="olbPpc" data-single="true"><fieldset>
-						<legend>Your Piece Color</legend>
-						<label><input id="radPpcB" type="radio" name="ppc" checked="true">Black</label>
-						<label><input id="radPpcW" type="radio" name="ppc">White</label>
-					</fieldset></gw-option-listbox>
-					<button type="submit">Create</button>
-				</form>
+				<output id="outConnected" tabindex="-1"></output>
+				<button id="btnPush" onclick="GW.Reversi.pushChanges()">Push changes</button>
+				<button onclick="GW.Reversi.onConnectClicked()">Connect</button>
+				<dialog id="diaConnect">
+					<form aria-labelledby="hConnect" onsubmit="GW.Reversi.onConnectSubmit(event);">
+						<h2>Connect</h2>
+						<div class="input-grid">
+							<label>
+								<span>Game name:</span>
+								<input type="text" name="gameName" required>
+							</label>
+							<label>
+								<span>Game passkey:</span>
+								<input type="text" name="gamePass" required>
+							</label>
+						</div>
+						<output></output>
+						<footer>
+							<button type="button" onclick="document.getElementById('diaConnect').close();">Close</button>
+							<button type="submit">Connect</button>
+						</footer>
+					</form>
+				</dialog>
+				<button id="btnHost" onclick="GW.Reversi.onHostClicked()">Host</button>
+				<dialog id="diaHost">
+					<form id="frmHost" aria-labelledby="hHost" onsubmit="GW.Reversi.onHostSubmit(event)">
+						<h3 id="hHost">Host</h3>
+						<div class="input-grid">
+							<label>
+								<span>Game name:</span>
+								<input type="text" name="gameName" required>
+							</label>
+							<label>
+								<span>Game passkey:</span>
+								<input type="text" name="gamePass" required>
+							</label>
+						</div>
+						<gw-option-listbox id="olbPpc" data-single="true"><fieldset>
+							<legend>Your Piece Color</legend>
+							<label><input id="radPpcB" type="radio" name="ppc" value="b" checked="true">Black</label>
+							<label><input id="radPpcW" type="radio" name="ppc" value="w">White</label>
+						</fieldset></gw-option-listbox>
+						<output></output>
+						<footer>
+							<button type="button" onclick="document.getElementById('diaHost').close();">Close</button>
+							<button type="submit">Create</button>
+						</footer>
+					</form>
+				</dialog>
 			</article>
 		</div>
 	</main>
@@ -193,9 +287,11 @@
 				<p>
 					You may take turns with someone if you are sharing a computer, or you may press the <q>Greedy Move</q> button on your opponent's turn to play against a simple bot.
 				</p>
-				<h2>Future Work</h2>
+				<h2>Online Play</h2>
 				<p>
-					An online mode, so you can play remotely with a friend, is in the works.
+					You can now play games over the internet with a friend! To get started, create an account with a username and email, then start a new game.
+					 You'll have access to a form to host a game with a name and passkey. Once you've begun hosting a game, give your friend the name and passkey, which they'll use to connect.
+					 After each of your moves, you will need to click "Push changes" to sync them to your friend.
 				</p>
 			</article>
 			<footer>

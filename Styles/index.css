@@ -55,7 +55,7 @@ header {
 		justify-self: flex-end;
 
 		display: grid;
-		grid-template-columns: auto auto auto;
+		grid-auto-flow: column;
 		gap: 4px;
 
 		.bubble {
@@ -81,7 +81,6 @@ body {
 }
 
 main {
-	max-height: 1000px;
 	max-width: 1600px;
 	height: 100%;
 	padding-block: 5px;
@@ -139,81 +138,31 @@ main {
 		}
 	}
 
-	&[data-ppcLocked] {
-		#olbPpc {
+	&:has(#radPpcB:checked) {
+		#strLockedPpcWhite {
 			display: none;
 		}
-		&:has(#radPpcB:checked) {
-			#strLockedPpcWhite {
-				display: none;
-			}
-		}
-		&:has(#radPpcW:checked) {
-			#strLockedPpcBlack {
-				display: none;
-			}
-		}
 	}
-	&:not([data-ppcLocked]) {
-		#spnLockedPpc {
+	&:has(#radPpcW:checked) {
+		#strLockedPpcBlack {
 			display: none;
 		}
 	}
 
-	&[data-initial="false"] {
-		#frmHost {
+	&:is([data-initial="false"], [data-connected]) {
+		#btnHost {
 			display: none;
 		}
 	}
 
-	gw-option-listbox {
-		fieldset {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-
-			padding: 0;
-			border: none;
-
-			--radius: 20px;
-			border-radius: var(--radius);
-			border-start-start-radius: 0;
-
-			legend {
-				border-end-start-radius: 0;
-			}
-
-			[role="option"] {
-				min-height: 44px;
-				min-width: 44px;
-
-				display: flex;
-				justify-content: center;
-
-				--full-border: 2px solid var(--link-color);
-				--partial-border: 0.5px solid var(--link-color);
-
-				border-block: var(--full-border);
-
-				&:has(+ [role="option"]) {
-					border-start-start-radius: var(--radius);
-					border-end-start-radius: var(--radius);
-					border-inline-start: var(--full-border);
-					border-inline-end: var(--partial-border);
-				}
-				+ [role="option"] {
-					border-start-end-radius: var(--radius);
-					border-end-end-radius: var(--radius);
-					border-inline-start: var(--partial-border);
-					border-inline-end: var(--full-border);
-				}
-
-				&[tabindex="-1"] {
-					outline: none !important;
-				}
-			}
+	&[data-connected] {
+		#btnGrd {
+			display: none;
 		}
+	}
 
-		svg {
+	&:not([data-connected]) {
+		#btnPush, #btnReset {
 			display: none;
 		}
 	}
@@ -311,6 +260,12 @@ main {
 	flex-direction: column;
 	gap: 5px;
 
+	&:not([data-loggedIn="true"]) {
+		form {
+			display: none;
+		}
+	}
+
 	form {
 		display: flex;
 		flex-direction: column;
@@ -354,9 +309,13 @@ form, article {
 
 	.input-grid {
 		display: grid;
-		grid-template-columns: 1fr auto;
+		grid-template-columns: auto 1fr;
 		row-gap: 5px;
 		user-select: none;
+
+		input:is([type="text"], [type="password"], [type="email"]) {
+			min-height: 24px;
+		}
 
 		> label {
 			text-align: end;
@@ -462,6 +421,29 @@ dialog {
 	}
 }
 
+:is(#diaConnect, #diaHost) form {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+
+	footer {
+		display: grid;
+		grid-auto-flow: column;
+		justify-content: stretch;
+	}
+}
+
+dialog {
+	output {
+		text-align: center;
+		background-color: var(--invalid-text-background-color);
+
+		&:empty {
+			display: none;
+		}
+	}
+}
+
 button {
 	display: flex;
 	align-items: center;
@@ -470,6 +452,58 @@ button {
 
 gw-switch {
 	min-width: 20px;
+}
+
+gw-option-listbox {
+	fieldset {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+
+		padding: 0;
+		border: none;
+
+		--radius: 20px;
+		border-radius: var(--radius);
+		border-start-start-radius: 0;
+
+		legend {
+			border-end-start-radius: 0;
+		}
+
+		[role="option"] {
+			min-height: 44px;
+			min-width: 44px;
+
+			display: flex;
+			justify-content: center;
+
+			--full-border: 2px solid var(--link-color);
+			--partial-border: 0.5px solid var(--link-color);
+
+			border-block: var(--full-border);
+
+			&:has(+ [role="option"]) {
+				border-start-start-radius: var(--radius);
+				border-end-start-radius: var(--radius);
+				border-inline-start: var(--full-border);
+				border-inline-end: var(--partial-border);
+			}
+			+ [role="option"] {
+				border-start-end-radius: var(--radius);
+				border-end-end-radius: var(--radius);
+				border-inline-start: var(--partial-border);
+				border-inline-end: var(--full-border);
+			}
+
+			&[tabindex="-1"] {
+				outline: none !important;
+			}
+		}
+	}
+
+	svg {
+		display: none;
+	}
 }
 
 @media (width <= 654px) {

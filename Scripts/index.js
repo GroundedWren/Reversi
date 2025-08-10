@@ -22,9 +22,15 @@ window.addEventListener("load", () => {
 
 	document.getElementById("olbPpc").addEventListener("selection-change", GW.Reversi.onPpcChange);
 
+	GW.Reversi.onAuthStateChanged();
+	GW.Firebase.addListener("AuthStateChanged", "Reversi", GW.Reversi.onAuthStateChanged);
+
 	GW.Reversi.Data = JSON.parse(localStorage.getItem("data"));
 	if(!GW.Reversi.Data) {
 		GW.Reversi.generateGameData();
 	}
-	GW.Reversi.renderGame();
+
+	if(!GW.Reversi.tryConnectToLastGame()) {
+		GW.Reversi.renderGame();
+	}
 });
