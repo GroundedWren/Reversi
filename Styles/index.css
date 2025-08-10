@@ -377,6 +377,7 @@ dialog {
 	display: flex;
 	flex-direction: column;
 	gap: 5px;
+	min-width: 250px;
 }
 
 #diaInfo > article {

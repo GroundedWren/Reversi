@@ -307,21 +307,21 @@ window.GW = window.GW || {};
 			<button id=${this.getId("btn")} aria-label="Account" aria-describedby="${this.getId("svg")}">
 				${this.#getBtnSvg()}
 			</button>
-			<dialog>${
+			<dialog aria-labelledby="${this.getId("heading")}">${
 				this.User
 				? `
-				<article>
-					<h2>User</h2>
+				<article aria-labelledby="${this.getId("heading")}">
+					<h2 id="${this.getId("heading")}">User</h2>
 					<span>Email: ${this.User.email}</span>
-					<output></output>
+					<output tabindex="-1"></output>
 					<footer>
 						<button id="${this.getId("btnClose")}" autofocus>Close</button>
 						<button id="${this.getId("btnLogOut")}">Log out</button>
 					</footer>
 				</article>`
 				: `
-				<form id="${this.getId("frmAuth")}">
-					<h2>Authenticate</h2>
+				<form id="${this.getId("frmAuth")}" aria-labelledby="${this.getId("heading")}">
+					<h2 id="${this.getId("heading")}">Authenticate</h2>
 					<fieldset>
 						<legend>Action</legend>
 						<label><input
@@ -347,7 +347,7 @@ window.GW = window.GW || {};
 							<input type="password" name="password" required>
 						</label>
 					</div>
-					<output></output>
+					<output tabindex="-1"></output>
 					<footer>
 						<button id="${this.getId("btnClose")}" type="button">Close</button>
 						<button type="submit">Submit</button>
@@ -391,26 +391,38 @@ window.GW = window.GW || {};
 			this.renderContent();
 		};
 
-		#onAuthFormSubmit = (event) => {
+		#onAuthFormSubmit = async (event) => {
 			event.preventDefault();
 			const data = new FormData(event.target);
+			this.#disableButtons();
 			this.querySelector(`output`).innerHTML = "";
+			const outEl = this.querySelector(`output`);
 
 			if(data.get(this.getId("authStyle")) === "SignIn") {
-				signInWithEmailAndPassword(GW.Firebase.Auth, data.get("email"), data.get("password")).catch((error) => {
-					this.querySelector(`output`).innerHTML = `Authentication failed<br>${error.message}`;
+				await signInWithEmailAndPassword(GW.Firebase.Auth, data.get("email"), data.get("password")).catch((error) => {
+					outEl.innerHTML = `Authentication failed<br>${error.message}`;
+					outEl.focus();
 				});
 			}
 			else {
-				createUserWithEmailAndPassword(GW.Firebase.Auth, data.get("email"), data.get("password")).catch((error) => {
-					this.querySelector(`output`).innerHTML = `Signup failed<br>${error.message}`;
+				await createUserWithEmailAndPassword(GW.Firebase.Auth, data.get("email"), data.get("password")).catch((error) => {
+					outEl.innerHTML = `Signup failed<br>${error.message}`;
+					outEl.focus();
 				});
 			}
+			this.#enableButtons();
 		};
 
 		#logOut = () => {
 			signOut(GW.Firebase?.Auth);
 		};
+
+		#disableButtons() {
+			this.querySelectorAll("button").forEach(btnEl => btnEl.setAttribute("disabled", "true"));
+		};
+		#enableButtons() {
+			this.querySelectorAll("button").forEach(btnEl => btnEl.removeAttribute("disabled"));
+		}
 
 		get User() {
 			return GW.Firebase?.Auth?.currentUser;

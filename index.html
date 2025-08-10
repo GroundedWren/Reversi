@@ -222,9 +222,9 @@
 			<figcaption>Created by Vera in 2025</figcaption>
 		</figure>
 	</footer>
-	<dialog id="diaInfo">
+	<dialog id="diaInfo" aria-labelledby="icoInfo">
 		<article>
-			<gw-icon iconKey="circle-info" name="info" tabindex="-1" role="heading" aria-level="1" autofocus></gw-icon>
+			<gw-icon id="icoInfo" iconKey="circle-info" name="info" tabindex="-1" role="heading" aria-level="1" autofocus></gw-icon>
 			<article>
 				<h2>Intro</h2>
 				<p>
@@ -260,7 +260,7 @@
 			</footer>
 		</article>
 	</dialog>
-	<dialog id="diaNew">
+	<dialog id="diaNew" aria-labelledby="hNew">
 		<article aria-labelledby="hNew">
 			<h2 id="hNew">New Game</h2>
 			<button id="btnConnect" onclick="GW.Reversi.onConnectClicked()" autofocus>Connect</button>
@@ -269,13 +269,13 @@
 			<button onclick="document.getElementById('diaNew').close()">Cancel</button>
 		</article>
 	</dialog>
-	<dialog id="diaHost">
+	<dialog id="diaHost" aria-labelledby="hHost">
 		<form id="frmHost" aria-labelledby="hHost" onsubmit="GW.Reversi.onHostSubmit(event)">
 			<h3 id="hHost">Host</h3>
 			<div class="input-grid">
 				<label>
 					<span>Game name:</span>
-					<input type="text" name="gameName" required>
+					<input type="text" name="gameName" required autofocus>
 				</label>
 				<label>
 					<span>Game passkey:</span>
@@ -287,27 +287,27 @@
 				<label><input id="radPpcB" type="radio" name="ppc" value="b" checked="true">Black</label>
 				<label><input id="radPpcW" type="radio" name="ppc" value="w">White</label>
 			</fieldset></gw-option-listbox>
-			<output></output>
+			<output tabindex="-1"></output>
 			<footer>
 				<button type="button" onclick="document.getElementById('diaHost').close();">Close</button>
 				<button type="submit">Create</button>
 			</footer>
 		</form>
 	</dialog>
-	<dialog id="diaConnect">
+	<dialog id="diaConnect" aria-labelledby="hConnect">
 		<form aria-labelledby="hConnect" onsubmit="GW.Reversi.onConnectSubmit(event);">
-			<h2>Connect</h2>
+			<h2 id="hConnect">Connect</h2>
 			<div class="input-grid">
 				<label>
 					<span>Game name:</span>
-					<input type="text" name="gameName" required>
+					<input type="text" name="gameName" required autofocus>
 				</label>
 				<label>
 					<span>Game passkey:</span>
 					<input type="text" name="gamePass" required>
 				</label>
 			</div>
-			<output></output>
+			<output tabindex="-1"></output>
 			<footer>
 				<button type="button" onclick="document.getElementById('diaConnect').close();">Close</button>
 				<button type="submit">Connect</button>

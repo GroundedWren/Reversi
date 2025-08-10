@@ -413,6 +413,7 @@ window.GW = window.GW || {};
 		if(extantDocData.exists()) {
 			event.target.querySelector(`output`).innerHTML = `Game name is in use`;
 			event.target.querySelectorAll(`button`).forEach(btnEl => btnEl.removeAttribute("disabled"));
+			event.target.querySelector(`output`)?.focus();
 			return;
 		}
 		event.target.querySelector(`output`).innerHTML = "";
@@ -466,6 +467,7 @@ window.GW = window.GW || {};
 		if(!extantDocData.exists()) {
 			event.target.querySelector(`output`).innerHTML = `Game does not exist`;
 			event.target.querySelectorAll(`button`).forEach(btnEl => btnEl.removeAttribute("disabled"));
+			event.target.querySelector(`output`)?.focus();
 			return;
 		}
 		event.target.querySelector(`output`).innerHTML = "";
@@ -491,7 +493,9 @@ window.GW = window.GW || {};
 			document.getElementById("diaConnect").close();
 		}).catch((error) => {
 			event.target.querySelectorAll(`button`).forEach(btnEl => btnEl.removeAttribute("disabled"));
+			event.target.querySelector(`[autofocus]`)?.focus();
 			event.target.querySelector(`output`).innerHTML = `Connect failed<br>${error.message}`;
+			event.target.querySelector(`output`).focus();
 		});
 	};
 
