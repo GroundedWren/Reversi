@@ -138,7 +138,10 @@ window.GW = window.GW || {};
 
 	function updateResetBtn() {
 		const btnReset = document.getElementById("btnReset");
-		if(ns.Data.ToMove === "" && document.getElementById("olbPpc").Value === ns.Colors.Black) {
+		if(ns.Data.ToMove === ""
+			&& document.getElementById("olbPpc").Value === ns.Colors.Black
+			&& !!GW.Firebase?.Auth?.currentUser?.uid
+		) {
 			btnReset.classList.remove("hidden");
 		}
 		else {
@@ -194,7 +197,15 @@ window.GW = window.GW || {};
 			return;
 		}
 
-		if(ppc !== ns.Data.ToMove && gameDocData.get("LastMove") !== GW.Firebase.Auth.currentUser?.uid) {
+		const userId =  GW.Firebase.Auth.currentUser?.uid;
+		const isUsersMove = ppc === ns.Data.ToMove
+		const isReset = gameDocData.get("IsGameOver") && (ns.Data.ToMove !== "");
+		const lastMoveExists = !!gameDocData.get("LastMove") && !isReset;
+		const lastMoveWasUser = gameDocData.get("LastMove") === userId
+
+		if((!isUsersMove && lastMoveExists && !lastMoveWasUser && !gameDocData.get("IsGameOver"))
+			|| (!isUsersMove && !lastMoveExists && (ppc === ns.Colors.Black))
+		) {
 			btnPush.removeAttribute("disabled");
 		}
 		else {
@@ -209,9 +220,10 @@ window.GW = window.GW || {};
 		localStorage.removeItem("data");
 
 		ns.Data = new Proxy(ns.Data, {
-			set(_target, property, _value, _receiver) {
+			set(target, property, value, _receiver) {
+				const isChange = target[property] !== value
 				const returnVal = Reflect.set(...arguments);
-				if(property === "ToMove") {
+				if(property === "ToMove" && isChange) {
 					this.toggle();
 				}
 				return returnVal;
@@ -591,7 +603,8 @@ window.GW = window.GW || {};
 			Data: JSON.stringify(ns.Data),
 			LastMove: GW.Firebase.Auth.currentUser.uid,
 			LastMoveEmail: GW.Firebase.Auth.currentUser.email,
-			Timestamp: new Date().toISOString()
+			Timestamp: new Date().toISOString(),
+			IsGameOver: ns.Data.ToMove === ''
 		}).then(() => {
 			Last.clear();
 			document.querySelectorAll(`[id^="gwToast"]`).forEach(toastEl => toastEl.remove());
