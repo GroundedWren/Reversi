@@ -113,6 +113,7 @@ window.GW = window.GW || {};
 		run(key, action) {
 			if(!key) {
 				this.#log(`Argumentless run`);
+				this.#primeBatchPromise();
 				this.#startFlushTimer();
 			}
 			else {
@@ -129,8 +130,15 @@ window.GW = window.GW || {};
 		 */
 		stage(key, action) {
 			this.#log(`Action "${key}" ${this.#StagedActions.has(key) ? "re-" : ""}staged`);
+			this.#primeBatchPromise();
 			this.#StagedActions.set(key, action);
-			this.BatchPromise = new Promise((resolve) => this.#BatchPromiseResolver = resolve);
+		}
+
+		#primeBatchPromise() {
+			if(!this.#StagedActions.size && !this.#FlushTimer) {
+				this.#log(`Batch promise primed`);
+				this.BatchPromise = new Promise((resolve) => this.#BatchPromiseResolver = resolve);
+			}
 		}
 
 		#startFlushTimer() {
