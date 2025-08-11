@@ -5,13 +5,16 @@
  
 window.GW = window.GW || {};
 (function Reversi(ns) {
-	ns.Data;
+	ns.Data; //board data
 	ns.Colors = {
 		Black: "b",
 		White: "w",
 	};
 	ns.SnapshotUnsubscribe = null;
 
+	/**
+	 * Undo button functionality
+	 */
 	const Last = {};
 	(function Last(lastNs) {
 		const DataObjArray = [];
@@ -46,6 +49,9 @@ window.GW = window.GW || {};
 		}
 	})(Last);
 	
+	/**
+	 * New local game
+	 */
 	ns.onNewGame = () => {
 		document.getElementById("diaNew").close();
 		document.querySelectorAll(`[id^="gwToast"]`).forEach(toastEl => toastEl.remove());
@@ -70,6 +76,9 @@ window.GW = window.GW || {};
 		document.body.removeAttribute("data-connected");
 	}
 
+	/**
+	 * Sets up Othello
+	 */
 	ns.generateGameData = () => {
 		ns.Data = {
 			ToMove: ns.Colors.Black
@@ -99,6 +108,11 @@ window.GW = window.GW || {};
 			: "";
 	}
 
+	/**
+	 * Flips your color
+	 * @param {string} color Current color
+	 * @returns White if black, black if white
+	 */
 	ns.getOppositeColor = function getOppositeColor(color) {
 		switch (color) {
 			case ns.Colors.Black:
@@ -110,6 +124,9 @@ window.GW = window.GW || {};
 		}
 	}
 
+	/**
+	 * Handler when the color that is up to move changes
+	 */
 	ns.onToggleToMove = () => {
 		if(ns.Data.ToMove) {
 			document.body.setAttribute("data-ToMove", ns.Data.ToMove);
@@ -129,13 +146,15 @@ window.GW = window.GW || {};
 		updateInfoButtons();
 	}
 
+	/**
+	 * Updates the state of the right panel info buttons
+	 */
 	function updateInfoButtons() {
 		updateResetBtn();
 		updateGrdBtn();
 		updatePassBtn();
 		updatePushBtn();
 	}
-
 	function updateResetBtn() {
 		const btnReset = document.getElementById("btnReset");
 		if(ns.Data.ToMove === ""
@@ -151,7 +170,6 @@ window.GW = window.GW || {};
 			btnReset.classList.add("hidden");
 		}
 	}
-
 	function updateGrdBtn() {
 		const btnGrd = document.getElementById("btnGrd");
 		const ppc = document.getElementById("olbPpc").Value;
@@ -165,7 +183,6 @@ window.GW = window.GW || {};
 			btnGrd.classList.add("hidden");
 		}
 	}
-
 	function updatePassBtn() {
 		const btnPass = document.getElementById("btnPass");
 		const ppc = document.getElementById("olbPpc").Value;
@@ -179,7 +196,6 @@ window.GW = window.GW || {};
 			btnPass.classList.add("hidden");
 		}
 	}
-
 	async function updatePushBtn() {
 		const btnPush = document.getElementById("btnPush");
 		const ppc = document.getElementById("olbPpc").Value;
@@ -216,6 +232,10 @@ window.GW = window.GW || {};
 		}
 	}
 
+	/**
+	 * Renders the game whole-cloth from ns.Data
+	 * Not used for incremental updates
+	 */
 	ns.renderGame = function renderGame() {
 		localStorage.removeItem("data");
 
@@ -250,6 +270,10 @@ window.GW = window.GW || {};
 		</tbody>`;
 	}
 
+	/**
+	 * Reverts the most recent move
+	 * @returns Promise<void>
+	 */
 	ns.undo = async () => {
 		const lastDataObj = Last.pop();
 		if(!lastDataObj) {
@@ -274,12 +298,18 @@ window.GW = window.GW || {};
 		}
 	};
 
+	/**
+	 * Passes back priority without moving
+	 */
 	ns.passTurn = () => {
 		ns.Data.ToMove = ns.getOppositeColor(ns.Data.ToMove);
 		ns.Data.LastMovePassed = true;
 		ns.CellEl.RenderBatcher.run();
 	};
 
+	/**
+	 * Listener for when the CellEls complete a render cycle
+	 */
 	const onRender = async () => {
 		await ns.CellEl.RenderBatcher.BatchPromise;
 
@@ -318,6 +348,10 @@ window.GW = window.GW || {};
 		console.log("-- GAME OVER --")
 	}
 
+	/**
+	 * Main board keyboard navigation
+	 * @param {Event} event Keyboard event
+	 */
 	ns.gameKbdNav = (event) => {
 		const targetCell = document.querySelector(`gw-cell:focus-within`);
 		let targetRow = targetCell.RowIdx;
@@ -341,6 +375,10 @@ window.GW = window.GW || {};
 		document.querySelector(`gw-cell[data-row="${targetRow}"][data-col="${targetCol}"]`)?.focus();
 	};
 
+	/**
+	 * Jumps between move buttons in the board based on keyboard input
+	 * @param {Event} event Keyboard event
+	 */
 	ns.gameBtnJump = (event) => {
 		const cellAry = Object.values(ns.CellEl.InstanceMap);
 
@@ -378,10 +416,16 @@ window.GW = window.GW || {};
 		}
 	};
 
+	/**
+	 * Handler when the player's piece color changes
+	 */
 	ns.onPpcChange = () => {
 		document.querySelectorAll(`gw-cell[data-clickable]`).forEach(cellEl => cellEl.updateTabindex());
 	};
 
+	/**
+	 * Performs a greedy-algorithm optimal move
+	 */
 	ns.moveGreedily = () => {
 		if(document.body.hasAttribute("data-connected")) {
 			GW.Controls.Toaster.showToast("Cannot move greedily while connected online");
@@ -397,6 +441,9 @@ window.GW = window.GW || {};
 		setTimeout(() => GW.Controls.Toaster.showToast("Move performed", {invisible: true}), 0);
 	};
 
+	/**
+	 * Handler for when the "Host" new game button is clicked
+	 */
 	ns.onHostClicked = () => {
 		document.getElementById("diaNew").close();
 		if(!GW.Firebase?.Auth?.currentUser) {
@@ -410,6 +457,10 @@ window.GW = window.GW || {};
 		document.getElementById("diaHost").showModal();
 	};
 
+	/**
+	 * Handler for when the hosting form is submitted
+	 * @param {Event} event Form submit
+	 */
 	ns.onHostSubmit = async (event) => {
 		event.preventDefault();
 
@@ -454,6 +505,9 @@ window.GW = window.GW || {};
 		document.getElementById("outConnected").focus();
 	};
 
+	/**
+	 * Handler for when the "Connect" new game button is clicked
+	 */
 	ns.onConnectClicked = () => {
 		document.getElementById("diaNew").close();
 		if(!GW.Firebase?.Auth?.currentUser) {
@@ -465,6 +519,10 @@ window.GW = window.GW || {};
 		document.getElementById("diaConnect").showModal();
 	};
 
+	/**
+	 * Handler for when the connecting form is submitted
+	 * @param {Event} event Form submit
+	 */
 	ns.onConnectSubmit = async (event) => {
 		event.preventDefault();
 
@@ -511,6 +569,10 @@ window.GW = window.GW || {};
 		});
 	};
 
+	/**
+	 * Tries to connect to the last game saved in local storage
+	 * @returns Whether the connection was successful
+	 */
 	ns.tryConnectToLastGame = function tryConnectToLastGame() {
 		const userId = GW.Firebase?.Auth?.currentUser?.uid;
 		const lastUser = localStorage.getItem("online-user");
@@ -525,6 +587,10 @@ window.GW = window.GW || {};
 		}
 	}
 
+	/**
+	 * Connects to the specified online game
+	 * @param {string} gameName Game identifier
+	 */
 	ns.connectToGame = async function connectToGame(gameName) {
 		if(!gameName || !GW.Firebase?.Auth?.currentUser?.uid) {
 			return;
@@ -558,6 +624,9 @@ window.GW = window.GW || {};
 		ns.renderGame();
 	}
 
+	/**
+	 * Handler when the logged in user changes
+	 */
 	ns.onAuthStateChanged = () => {
 		const isLoggedIn = !!GW.Firebase?.Auth?.currentUser;
 		document.getElementById("artOnline").setAttribute("data-loggedIn", isLoggedIn);
@@ -570,7 +639,12 @@ window.GW = window.GW || {};
 		}
 	};
 
-	onSnapshotUpdated = (gameDocData) => {
+
+	/**
+	 * Handler when the connected game's firebase data is updated
+	 * @param {Firebase Document Object} gameDocData 
+	 */
+	const onSnapshotUpdated = (gameDocData) => {
 		if(!gameDocData.get("LastMove") || gameDocData.get("LastMove") === GW.Firebase.Auth.currentUser.uid) {
 			return;
 		}
@@ -589,6 +663,9 @@ window.GW = window.GW || {};
 		);
 	};
 
+	/**
+	 * Pushes the current game state to firebase
+	 */
 	ns.pushChanges = () => {
 		const gameName = localStorage.getItem("online-game");
 		if(!gameName || !GW.Firebase?.Auth?.currentUser) {
@@ -616,6 +693,9 @@ window.GW = window.GW || {};
 		updatePushBtn();
 	};
 
+	/**
+	 * Clears the board
+	 */
 	ns.reset = () => {
 		ns.generateGameData();
 		ns.renderGame();
