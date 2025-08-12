@@ -164,6 +164,41 @@ main {
 	grid-template-areas: 
 		"x g i";
 	grid-template-columns: minmax(0, 300px) auto minmax(300px, auto);
+
+	&:has(#cbxShowPrev:checked) {
+		--orig-black-piece-start-color: var(--black-piece-start-color);
+		--orig-white-piece-start-color: var(--white-piece-start-color);
+		--orig-black-piece-end-color: var(--black-piece-end-color);
+		--orig-white-piece-end-color: var(--white-piece-end-color);
+		--orig-white-piece-letter: var(--white-piece-letter);
+		--orig-black-piece-letter: var(--black-piece-letter);
+		--orig-black-piece-text-color: var(--black-piece-text-color);
+		--orig-white-piece-text-color: var(--white-piece-text-color);
+
+
+		gw-cell:has([aria-describedby*="spnCellLastFlip"]) {
+			transition: 0.3s;
+			
+			--black-piece-start-color: var(--orig-white-piece-start-color);
+			--white-piece-start-color: var(--orig-black-piece-start-color);
+			--black-piece-end-color: var(--orig-white-piece-end-color);
+			--white-piece-end-color: var(--orig-black-piece-end-color);
+			--black-piece-letter: var(--orig-white-piece-letter);
+			--white-piece-letter: var(--orig-black-piece-letter);
+			--black-piece-text-color: var(--orig-white-piece-text-color);
+			--white-piece-text-color: var(--orig-black-piece-text-color);
+		}
+
+		gw-cell:has([aria-describedby*="spnCellLastMove"]) {
+			--black-piece-start-color: transparent;
+			--white-piece-start-color: transparent;
+			--black-piece-end-color: transparent;
+			--white-piece-end-color: transparent;
+			*, *::before, *::after {
+				box-shadow: none !important;
+			}
+		}
+	}
 }
 
 #shortsGame {

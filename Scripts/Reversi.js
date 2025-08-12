@@ -338,6 +338,8 @@ window.GW = window.GW || {};
 		);
 
 		updateInfoButtons();
+		
+		document.getElementById("cbxShowPrev").checked = false;
 
 		Last.push(JSON.parse(localStorage.getItem("data")));
 		localStorage.setItem("data", JSON.stringify(ns.Data));

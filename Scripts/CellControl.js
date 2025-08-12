@@ -150,12 +150,12 @@ window.GW = window.GW || {};
 
 				&[aria-labelledby="spnWhitePiece"] {
 					--piece-bkg: linear-gradient(180deg, var(--white-piece-start-color) 0%, var(--white-piece-end-color) 100%);
-					--piece-letter: "W";
+					--piece-letter: var(--white-piece-letter);
 					--piece-color: var(--white-piece-text-color);
 				}
 				&[aria-labelledby="spnBlackPiece"] {
 					--piece-bkg: linear-gradient(180deg, var(--black-piece-start-color) 0%, var(--black-piece-end-color) 100%);
-					--piece-letter: "B";
+					--piece-letter: var(--black-piece-letter);
 					--piece-color: var(--black-piece-text-color);
 				}
 

@@ -26,6 +26,9 @@
 	--black-piece-text-color: #FFFFFF;
 	--piece-shadow: rgba(0,0,0,0.25);
 	--board-bkg-gradient: linear-gradient(330deg,rgba(133, 71, 21, 1) 0%, rgba(217, 172, 132, 1) 100%);
+
+	--white-piece-letter: "W";
+	--black-piece-letter: "B";
 	
 	input {
 		color-scheme: light;
