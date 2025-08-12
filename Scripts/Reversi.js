@@ -417,13 +417,6 @@ window.GW = window.GW || {};
 	};
 
 	/**
-	 * Handler when the player's piece color changes
-	 */
-	ns.onPpcChange = () => {
-		document.querySelectorAll(`gw-cell[data-clickable]`).forEach(cellEl => cellEl.updateTabindex());
-	};
-
-	/**
 	 * Performs a greedy-algorithm optimal move
 	 */
 	ns.moveGreedily = () => {

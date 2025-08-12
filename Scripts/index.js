@@ -20,8 +20,6 @@ window.addEventListener("load", () => {
 		(document.querySelector(`gw-cell:focus-within`) || document.querySelector(`gw-cell`)).focus();
 	});
 
-	document.getElementById("olbPpc").addEventListener("selection-change", GW.Reversi.onPpcChange);
-
 	GW.Reversi.onAuthStateChanged();
 	GW.Firebase.addListener("AuthStateChanged", "Reversi", GW.Reversi.onAuthStateChanged);
 

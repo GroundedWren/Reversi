@@ -328,14 +328,6 @@ window.GW = window.GW || {};
 			tidxZeroTarget.focus();
 		}
 
-		updateTabindex() {
-			if(!this.querySelector(`[tabindex="0"]`)) {
-				return;
-			}
-
-			this.#getTidxZeroTarget().setAttribute("tabindex", 0);
-		}
-
 		#getTidxZeroTarget() {
 			const btn = this.getRef("btn");
 			if(btn && btn.checkVisibility()) {
