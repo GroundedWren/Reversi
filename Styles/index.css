@@ -342,11 +342,12 @@ form, article {
 	.input-grid {
 		display: grid;
 		grid-template-columns: auto 1fr;
-		row-gap: 5px;
+		row-gap: 7px;
 		user-select: none;
 
 		input:is([type="text"], [type="password"], [type="email"]) {
 			min-height: 24px;
+			min-width: inherit;
 		}
 
 		> label {
@@ -413,6 +414,11 @@ dialog {
 	flex-direction: column;
 	gap: 5px;
 	min-width: 250px;
+
+	button {
+		min-width: 44px;
+		min-height: 44px;
+	}
 }
 
 #diaInfo > article {
@@ -586,6 +592,16 @@ gw-option-listbox {
 		> * {
 			min-width: initial !important;
 		}
+	}
+
+	button:not([id^="gw-cell"]), summary, label, a.full {
+		min-width: 44px;
+		min-height: 44px;
+	}
+
+	a.full {
+		display: flex;
+		align-items: center;
 	}
 }
 
