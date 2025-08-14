@@ -545,6 +545,10 @@ gw-option-listbox {
 	}
 }
 
+.bubble {
+	z-index: 100;
+}
+
 @media (width <= 654px) {
 	:root {
 		--cell-size: 100%;
@@ -569,5 +573,24 @@ gw-option-listbox {
 
 	#divBoardContainer {
 		display: contents;
+	}
+
+	#rightArticles {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		justify-content: center;
+		column-gap: 0;
+
+		> * {
+			min-width: initial !important;
+		}
+	}
+}
+
+@media (width < 375px) {
+	#rightArticles {
+		font-size: 0.8em;
 	}
 }
