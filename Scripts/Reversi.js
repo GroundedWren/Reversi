@@ -591,6 +591,13 @@ window.GW = window.GW || {};
 			return;
 		}
 
+		if(window.Notification
+			&& Notification.permission !== "granted"
+			&& typeof Notification.requestPermission === "function" // We're being really careful
+		) {
+			Notification.requestPermission();
+		}
+
 		document.body.setAttribute("data-connected", "true");
 
 		document.getElementById("outConnected").innerText = `Connected to: ${gameName}`;
@@ -648,13 +655,17 @@ window.GW = window.GW || {};
 		Last.clear();
 		ns.renderGame();
 
+		const notificationText = `${gameDocData.get("LastMoveEmail") || "Opponent"} moved`
+
+		if (window.Notification && Notification.permission === "granted") {
+			new Notification(notificationText);
+		}
+
 		GW.Controls.Toaster.showToast(
-			`${
-				gameDocData.get("LastMoveEmail") || "Opponent"
-			} moved<br>${
+			`${notificationText}<br>${
 				new Date(gameDocData.get("Timestamp")).toLocaleString(undefined, {timeStyle: "medium"})
 			}`,
-			{persist: true}
+			{persist: Notification?.permission !== "granted"}
 		);
 	};
 
